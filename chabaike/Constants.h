@@ -1,0 +1,7 @@
+#define DBNAME          @"baike.sqlite"
+#define DBNAMEFAV       @"fav.sqlite"
+#define DBNAMESEARCH    @"search.sqlite"
+#define SERVICEPHONE    @"053183171751"
+#define SERVICEAPPID    @"527790886"
+#define APP_KEY         @"b4f4ee31a8b9acc866ef2afb754c33e6"
+#define BASEURL         @"http://www.maimaicha.cn/api"
