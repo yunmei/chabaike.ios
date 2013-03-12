@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
+#import "UMSocialSnsService.h"
 @interface ZixunContentViewController : UIViewController<
 UIWebViewDelegate
 >
@@ -21,24 +22,6 @@ UIWebViewDelegate
 @property (strong,nonatomic)UIView *headerView;
 @property (strong,nonatomic)UILabel *detailLable;
 @property (strong,nonatomic)NSString *shareContent;
-@property (strong,nonatomic) UIImageView *shareViewBar;
 
-@property (strong, nonatomic) UITextView *textView;
-
-@property (strong, nonatomic) UIView *shareView;
-
-@property (strong, nonatomic) UIActivityIndicatorView *indicator;
-
-- (void) addButton;
-
-- (void) addShareView;
-
-- (void) share:(UIButton*) sender;
-
-- (void) removeShare:(UIButton*) sender;
-
-- (void) sendShare:(UIButton*) sender;
-
-- (void) exitShare:(UIButton*) sender;
 
 @end

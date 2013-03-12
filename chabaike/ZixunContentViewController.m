@@ -22,11 +22,6 @@
 @synthesize detailLable;
 @synthesize contentScrollView;
 @synthesize shareContent;
-@synthesize shareViewBar = _shareViewBar;
-@synthesize textView = _textView;
-@synthesize shareView = _shareView;
-@synthesize indicator = _indicator;
-BOOL ISSHARESHOW = NO;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -127,26 +122,6 @@ BOOL ISSHARESHOW = NO;
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (void)contentShare:(id)sender
-{
-    if(!ISSHARESHOW)
-    {
-        [self.view addSubview:self.shareViewBar];
-        ISSHARESHOW =YES;
-    }
-    else
-    {
-        [self.shareViewBar removeFromSuperview];
-        ISSHARESHOW = NO;
-    }
-        
-//    SNViewController *snView = [[SNViewController alloc]init];
-//    snView.weiboContent = self.shareContent;
-//    [self.navigationController pushViewController:snView animated:YES];
-}
-
-
-
 - (void)webViewDidFinishLoad:(UIWebView *)webView
 {
     CGRect frame = webView.frame;
@@ -162,49 +137,16 @@ BOOL ISSHARESHOW = NO;
     [super viewDidUnload];
 }
 
-- (UIImageView *)shareViewBar
+
+//点击分享
+- (void)contentShare:(id)sender
 {
-    if(_shareViewBar == nil)
-    _shareViewBar =[[UIImageView alloc]initWithFrame:CGRectMake(20, 345, 280 , 65)];
-    [_shareViewBar setImage:[UIImage imageNamed:@"ShareBar.png"]];
-    [_shareViewBar setUserInteractionEnabled:YES];
-    UIButton *sinaShareButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [sinaShareButton setFrame:CGRectMake(10, 12, 120, 30)];
-    [sinaShareButton setBackgroundImage:[UIImage imageNamed:@"SinaWeiboShare.png"] forState:UIControlStateNormal];
-    [sinaShareButton addTarget:self action:@selector(sinaShare:) forControlEvents:UIControlEventTouchUpInside];
-    UIButton *tengxunButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [tengxunButton setFrame:CGRectMake(145, 12, 120, 30)];
-    [tengxunButton setBackgroundImage:[UIImage imageNamed:@"TengxunWeiboShare.png"] forState:UIControlStateNormal];
-    [tengxunButton addTarget:self action:@selector(tentxunShare:) forControlEvents:UIControlEventTouchUpInside];
-    
-    [_shareViewBar addSubview:sinaShareButton];
-    [_shareViewBar addSubview:tengxunButton];
-    return _shareViewBar;
+    [UMSocialSnsService presentSnsController:self
+                                    appKey:@"4fab36cf527015375d000049"
+                                    shareText:self.shareContent
+                                    shareImage:nil
+                                    shareToSnsNames:[NSArray arrayWithObjects:UMShareToQzone,UMShareToRenren,UMShareToQzone,UMShareToDouban,UMShareToTencent,UMShareToSina,nil]
+                                    delegate:nil];
 }
 
-//点击新浪微博分享
-- (void)sinaShare:(id)sender
-{
-//    SinaWeibo *sinaWeibo = [self sinaWeibo];
-//    
-//    BOOL authValid = sinaWeibo.isAuthValid;
-//    
-//    if (!authValid)
-//    {
-//        [sinaWeibo logIn];
-//    }
-//    else
-//    {
-//        [self addShareView];
-//        [_textView becomeFirstResponder];
-//    }
-}
-
-//点击腾讯微博分享
-- (void)tentxunShare:(id)sender
-{
-    //[self shareTCWeibo];
-}
-
-//以下所有内容为新浪微博分享部分
 @end
