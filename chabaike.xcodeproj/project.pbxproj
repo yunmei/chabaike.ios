@@ -79,6 +79,7 @@
 		462894A316EED09C00F94357 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 462894A216EED09C00F94357 /* Security.framework */; };
 		462894A516EF01CF00F94357 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 462894A416EF01CF00F94357 /* Default-568h@2x.png */; };
 		462894A716EF022A00F94357 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 462894A616EF022900F94357 /* Default@2x.png */; };
+		AA4600FB16EF055A00661EEF /* UMSocialSDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = AA4600FA16EF055A00661EEF /* UMSocialSDKResources.bundle */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -202,6 +203,7 @@
 		462894A216EED09C00F94357 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		462894A416EF01CF00F94357 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		462894A616EF022900F94357 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		AA4600FA16EF055A00661EEF /* UMSocialSDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = UMSocialSDKResources.bundle; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -299,6 +301,7 @@
 		047854591548D7640098399C /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				AA4600F316EF055A00661EEF /* UMSocial_Sdk_1.8.0 */,
 				4628942116EECC9800F94357 /* InfoPlist.strings */,
 				04503CC3154A2F6A002F1E00 /* Resources */,
 				047854A51548E61B0098399C /* Class */,
@@ -479,6 +482,62 @@
 			path = SBJson;
 			sourceTree = "<group>";
 		};
+		AA4600F316EF055A00661EEF /* UMSocial_Sdk_1.8.0 */ = {
+			isa = PBXGroup;
+			children = (
+				AA4600F416EF055A00661EEF /* frameworks */,
+				AA4600F616EF055A00661EEF /* Headers */,
+				AA4600F916EF055A00661EEF /* SocialSDKXib */,
+				AA4600FA16EF055A00661EEF /* UMSocialSDKResources.bundle */,
+			);
+			path = UMSocial_Sdk_1.8.0;
+			sourceTree = "<group>";
+		};
+		AA4600F416EF055A00661EEF /* frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				AA4600F516EF055A00661EEF /* Wechat */,
+			);
+			path = frameworks;
+			sourceTree = "<group>";
+		};
+		AA4600F516EF055A00661EEF /* Wechat */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Wechat;
+			sourceTree = "<group>";
+		};
+		AA4600F616EF055A00661EEF /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				AA4600F716EF055A00661EEF /* DataAPI */,
+				AA4600F816EF055A00661EEF /* UIAPI */,
+			);
+			path = Headers;
+			sourceTree = "<group>";
+		};
+		AA4600F716EF055A00661EEF /* DataAPI */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = DataAPI;
+			sourceTree = "<group>";
+		};
+		AA4600F816EF055A00661EEF /* UIAPI */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = UIAPI;
+			sourceTree = "<group>";
+		};
+		AA4600F916EF055A00661EEF /* SocialSDKXib */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = SocialSDKXib;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -576,6 +635,7 @@
 				4628945A16EECE9500F94357 /* SlideViewController.xib in Resources */,
 				462894A516EF01CF00F94357 /* Default-568h@2x.png in Resources */,
 				462894A716EF022A00F94357 /* Default@2x.png in Resources */,
+				AA4600FB16EF055A00661EEF /* UMSocialSDKResources.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
