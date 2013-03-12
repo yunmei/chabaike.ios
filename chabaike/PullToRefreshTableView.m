@@ -47,7 +47,7 @@
     switch (state) {
         case k_PULL_STATE_NORMAL:
             currentState = k_PULL_STATE_NORMAL;
-            stateLabel.text = @"往上拖加载更多百科";
+            stateLabel.text = @"往上拖加载更多";
             break;
             
         case k_PULL_STATE_LOAD:
@@ -66,7 +66,7 @@
             break;
         default:
             currentState = k_PULL_STATE_NOScroll;
-            stateLabel.text = @"往上拖加载更多百科";
+            stateLabel.text = @"往上拖加载更多";
             break;
     }
     [UIView commitAnimations];
@@ -109,7 +109,7 @@
         return;
     }
     
-    CGFloat offsetY = self.contentOffset.y;
+   CGFloat offsetY = self.contentOffset.y;
     //  计算表内容大小与窗体大小的实际差距
     CGFloat differenceY = self.contentSize.height > self.frame.size.height ? (self.contentSize.height - self.frame.size.height) : 0;
     //  改变“上拖加载更多”视图的文字提示
@@ -129,7 +129,7 @@
         offsetY > differenceY + k_STATE_VIEW_HEIGHT / 3 * 2) {
         [footerView changeState:k_PULL_STATE_LOAD];
         return k_RETURN_LOADMORE;
-    } 
+    }
     return k_RETURN_DO_NOTHING;
 }
 
@@ -138,14 +138,14 @@
     self.contentInset = UIEdgeInsetsZero;
     if (dataIsAllLoaded) {
         [footerView changeState:k_PULL_STATE_NORMAL];
-    }
+        }
     else {
         [footerView changeState:k_PULL_STATE_END];//k_PULL_STATE_END
     }
 }
 - (void)tablewsetState:(BOOL)statesIsEnd{
     if (statesIsEnd) {
-        [footerView changeState:k_PULL_STATE_NOScroll]; 
+         [footerView changeState:k_PULL_STATE_NOScroll]; 
     }
     else {
         [footerView changeState:k_PULL_STATE_NORMAL];
