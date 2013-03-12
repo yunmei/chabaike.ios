@@ -9,14 +9,13 @@
 #import "chabaikeAppDelegate.h"
 #import "ViewController.h"
 #import "SlideViewController.h"
+#import "MobClick.h"
+
 @implementation chabaikeAppDelegate
 @synthesize appEngine;
-@synthesize snViewController;
-@synthesize sinaweibo;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    NSLog(@"222");
     self.appEngine = [[MKNetworkEngine alloc]initWithHostName:API_HOSTNAME customHeaderFields:nil];
     [self.appEngine useCache];
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
@@ -37,6 +36,9 @@
         self.window.rootViewController = navController;
         [navController setNavigationBarHidden:YES];
     }
+    [MobClick startWithAppkey:@"4fab36cf527015375d000049"];
+    [MobClick checkUpdate];
+    [MobClick setLogEnabled:YES];
     [self.window makeKeyAndVisible];
     return YES;
 }

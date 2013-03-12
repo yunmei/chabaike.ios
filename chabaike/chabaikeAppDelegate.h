@@ -11,14 +11,9 @@
 #import "MKNetworkKit.h"
 #define ApplicationDelegate ((chabaikeAppDelegate *)[UIApplication sharedApplication].delegate)
 @class ViewController;
-@class SinaWeibo;
-@class SNViewController;
 @interface chabaikeAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
-
 @property (strong, nonatomic) ViewController *viewController;
 @property (strong, nonatomic) MKNetworkEngine *appEngine;
-@property (strong, nonatomic) SinaWeibo *sinaweibo;
-@property (strong, nonatomic) SNViewController *snViewController;
 @end
