@@ -9,7 +9,6 @@
 #import "ZixunContentViewController.h"
 #import "YMGlobal.h"
 #import "SBJson.h"
-#import "SNViewController.h"
 
 @interface ZixunContentViewController ()
 
@@ -27,7 +26,6 @@
 @synthesize textView = _textView;
 @synthesize shareView = _shareView;
 @synthesize indicator = _indicator;
-@synthesize TCWeiboEngine;
 BOOL ISSHARESHOW = NO;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -43,9 +41,6 @@ BOOL ISSHARESHOW = NO;
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     [self.view addGestureRecognizer:self.swipeGesture];
-    TCWBEngine *engine = [[TCWBEngine alloc] initWithAppKey:WiressSDKDemoAppKey andSecret:WiressSDKDemoAppSecret andRedirectUrl:@"http://www.ying7wang7.com"];
-    [engine setRootViewController:self];
-    self.TCWeiboEngine = engine;
     //生成头部绿色背景
     self.headerView = [[UIView alloc]initWithFrame:CGRectMake(0,0,320, 120)];
     [self.headerView setBackgroundColor:[UIColor colorWithRed:61.0/255.0 green:157.0/255.0 blue:1.0/255.0 alpha:1.0]];
@@ -190,181 +185,26 @@ BOOL ISSHARESHOW = NO;
 //点击新浪微博分享
 - (void)sinaShare:(id)sender
 {
-    SinaWeibo *sinaWeibo = [self sinaWeibo];
-    
-    BOOL authValid = sinaWeibo.isAuthValid;
-    
-    if (!authValid)
-    {
-        [sinaWeibo logIn];
-    }
-    else
-    {
-        [self addShareView];
-        [_textView becomeFirstResponder];
-    }
+//    SinaWeibo *sinaWeibo = [self sinaWeibo];
+//    
+//    BOOL authValid = sinaWeibo.isAuthValid;
+//    
+//    if (!authValid)
+//    {
+//        [sinaWeibo logIn];
+//    }
+//    else
+//    {
+//        [self addShareView];
+//        [_textView becomeFirstResponder];
+//    }
 }
 
 //点击腾讯微博分享
 - (void)tentxunShare:(id)sender
 {
-    [self shareTCWeibo];
+    //[self shareTCWeibo];
 }
 
 //以下所有内容为新浪微博分享部分
-
-- (SinaWeibo*)sinaWeibo
-{
-    AppDelegate *delegate = (AppDelegate*)[UIApplication sharedApplication].delegate;
-    delegate.sinaweibo.delegate = self;
-    return delegate.sinaweibo;
-}
-
-//登陆成功后回调
-- (void) sinaweiboDidLogIn:(SinaWeibo *)sinaweibo
-{
-    [self addShareView];
-    [_textView becomeFirstResponder];
-}
-
-//取消按钮回调方法
-- (void) removeShare:(UIButton*) sender
-{
-    [_shareView removeFromSuperview];
-}
-
-//发送按钮回调方法
-- (void) sendShare:(UIButton*) sender
-{
-    NSString *postStatusText = self.textView.text;
-    
-    SinaWeibo *sinaWeibo = [self sinaWeibo];
-    
-    [sinaWeibo requestWithURL:@"statuses/update.json" params:[NSMutableDictionary dictionaryWithObjectsAndKeys:postStatusText,@"status", nil] httpMethod:@"POST" delegate:self];
-    
-    [_shareView removeFromSuperview];
-    
-    [self.indicator startAnimating];
-}
-
-//退出登陆回调方法
-- (void) exitShare:(UIButton*) sender
-{
-    SinaWeibo *sinaWeibo = [self sinaWeibo];
-    
-    [sinaWeibo logOut];
-    
-    [_shareView removeFromSuperview];
-    
-    NSLog(@"退出登陆");
-}
-
-//请求完成回调该方法
-- (void)request:(SinaWeiboRequest *)request didFinishLoadingWithResult:(id)result
-{
-    [self.indicator stopAnimating];
-    
-    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"分享成功" message:@"提示" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
-    [alert show];
-    NSLog(@"发送成功");
-    NSLog(@"result%@",result);
-}
-
-//请求失败回调该方法
-- (void)request:(SinaWeiboRequest *)request didFailWithError:(NSError *)error
-{
-    [self.indicator stopAnimating];
-    
-    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"发送失败,请检测网络链接" message:@"提示" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
-    [alert show];
-    NSLog(@"发送失败");
-}
-
-- (void) addShareView
-{
-    _shareView = [[UIView alloc] initWithFrame:CGRectMake(20, 30, 280, 200)];
-    _shareView.layer.masksToBounds = YES;
-    _shareView.layer.cornerRadius = 6.0;
-    _shareView.layer.borderWidth = 1.0;
-    _shareView.backgroundColor = [UIColor grayColor];
-    [self.view addSubview:_shareView];
-    
-    UIButton *quXiaoButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [quXiaoButton setFrame:CGRectMake(5, 5, 60, 30)];
-    [quXiaoButton setTitle:@"取消" forState:UIControlStateNormal];
-    [quXiaoButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
-    [quXiaoButton addTarget:self action:@selector(removeShare:) forControlEvents:UIControlEventTouchUpInside];
-    [_shareView addSubview:quXiaoButton];
-    
-    UIButton *fenXiangButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [fenXiangButton setFrame:CGRectMake(280-65, 5, 60, 30)];
-    [fenXiangButton setTitle:@"发送" forState:UIControlStateNormal];
-    [fenXiangButton addTarget:self action:@selector(sendShare:) forControlEvents:UIControlEventTouchUpInside];
-    [fenXiangButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
-    [_shareView addSubview:fenXiangButton];
-    
-    UIButton *tuiChuButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [tuiChuButton setFrame:CGRectMake(5, 165, 100, 30)];
-    [tuiChuButton setTitle:@"退出登陆" forState:UIControlStateNormal];
-    [tuiChuButton addTarget:self action:@selector(exitShare:) forControlEvents:UIControlEventTouchUpInside];
-    [tuiChuButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
-    [_shareView addSubview:tuiChuButton];
-    
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(55, 5, 280-110, 30)];
-    label.textAlignment = UITextAlignmentCenter;
-    label.text = @"新浪微博";
-    label.textColor = [UIColor whiteColor];
-    label.backgroundColor = [UIColor clearColor];
-    label.font = [UIFont fontWithName:[[UIFont familyNames] objectAtIndex:0] size:20];
-    [_shareView addSubview:label];
-    
-    _textView = [[UITextView alloc] initWithFrame:CGRectMake(5, 40, 270, 120)];
-    _textView.layer.cornerRadius = 6.0;
-    [_textView becomeFirstResponder];
-    [_textView setTextAlignment:UITextAlignmentLeft];
-    [_textView setBackgroundColor:[UIColor whiteColor]];
-    [_textView becomeFirstResponder];
-    _textView.text = self.shareContent;
-    _textView.keyboardType = UIKeyboardTypeASCIICapable;
-    [_shareView addSubview:_textView];
-}
-
-- (void)shareTCWeibo
-{
-
-    [self.TCWeiboEngine UIBroadCastMsgWithContent:self.shareContent
-                                       andImage:nil
-                                    parReserved:nil
-                                       delegate:self
-                                    onPostStart:@selector(postStart)
-                                  onPostSuccess:@selector(createSuccess:)
-                                  onPostFailure:@selector(createFail:)];
-    
-}
-
-//腾讯微博登录成功回调
-- (void)createSuccess:(NSDictionary *)dict {
-    NSLog(@"%s %@", __FUNCTION__,dict);
-    if ([[dict objectForKey:@"ret"] intValue] == 0) {
-        [self showAlertMessage:@"发送成功！"];
-    }else {
-        [self showAlertMessage:@"发送失败！"];
-    }
-}
-
-//腾讯微博登录失败回调
-- (void)createFail:(NSError *)error {
-    NSLog(@"error is %@",error);
-    [self showAlertMessage:@"发送失败！"];
-}
-
-- (void)showAlertMessage:(NSString *)msg {
-    UIAlertView* alertView = [[UIAlertView alloc]initWithTitle:nil
-                                                       message:msg
-                                                      delegate:self
-                                             cancelButtonTitle:@"确定"
-                                             otherButtonTitles:nil];
-    [alertView show];
-    
-}
 @end

@@ -8,14 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import <UIKit/UIKit.h>
-#import "SinaWeibo.h"
-#import "SinaWeiboRequest.h"
 #import <QuartzCore/QuartzCore.h>
-#import "TCWBEngine.h"
 @interface ZixunContentViewController : UIViewController<
-UIWebViewDelegate,
-SinaWeiboDelegate,
-SinaWeiboRequestDelegate
+UIWebViewDelegate
 >
 
 @property (strong, nonatomic) IBOutlet UIScrollView *contentScrollView;
@@ -34,7 +29,6 @@ SinaWeiboRequestDelegate
 
 @property (strong, nonatomic) UIActivityIndicatorView *indicator;
 
-@property (strong, nonatomic) TCWBEngine *TCWeiboEngine;
 - (void) addButton;
 
 - (void) addShareView;

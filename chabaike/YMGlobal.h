@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "Constants.h"
-#import "AppDelegate.h"
+#import "chabaikeAppDelegate.h"
 
 @interface YMGlobal : NSObject
 

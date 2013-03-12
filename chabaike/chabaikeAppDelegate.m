@@ -7,19 +7,36 @@
 //
 
 #import "chabaikeAppDelegate.h"
-#import "IndexViewController.h"
-
+#import "ViewController.h"
+#import "SlideViewController.h"
 @implementation chabaikeAppDelegate
-
-@synthesize window;
-@synthesize tabBarController;
+@synthesize appEngine;
+@synthesize snViewController;
+@synthesize sinaweibo;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    [NSThread sleepForTimeInterval:2.0];
-    [MobClick startWithAppkey:@"4fab36cf527015375d000049"];
-    [MobClick checkUpdate];
-    self.window.rootViewController=self.tabBarController;
+    NSLog(@"222");
+    self.appEngine = [[MKNetworkEngine alloc]initWithHostName:API_HOSTNAME customHeaderFields:nil];
+    [self.appEngine useCache];
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    // Override point for customization after application launch.
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSLog(@"systemVersion%@",[defaults objectForKey:@"systemVersion"]);
+    if([[defaults objectForKey:@"systemVersion"] isEqualToString:SYS_VERSION])
+    {
+        NSLog(@"不是第一次启动");
+        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[[ViewController alloc] initWithNibName:@"ViewController" bundle:nil]];
+        self.window.rootViewController = navController;
+        [navController setNavigationBarHidden:YES];
+    }else{
+        NSLog(@"是第一次启动");
+        [defaults setObject:SYS_VERSION forKey:@"systemVersion"];
+        [defaults synchronize];
+        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[[SlideViewController alloc] initWithNibName:@"SlideViewController" bundle:nil]];
+        self.window.rootViewController = navController;
+        [navController setNavigationBarHidden:YES];
+    }
     [self.window makeKeyAndVisible];
     return YES;
 }
@@ -32,7 +49,7 @@
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
+    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
 }
 
@@ -52,3 +69,4 @@
 }
 
 @end
+
