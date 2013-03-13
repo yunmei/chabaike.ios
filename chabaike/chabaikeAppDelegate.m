@@ -21,15 +21,12 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSLog(@"systemVersion%@",[defaults objectForKey:@"systemVersion"]);
     if([[defaults objectForKey:@"systemVersion"] isEqualToString:SYS_VERSION])
     {
-        NSLog(@"不是第一次启动");
         UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[[ViewController alloc] initWithNibName:@"ViewController" bundle:nil]];
         self.window.rootViewController = navController;
         [navController setNavigationBarHidden:YES];
     }else{
-        NSLog(@"是第一次启动");
         [defaults setObject:SYS_VERSION forKey:@"systemVersion"];
         [defaults synchronize];
         UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[[SlideViewController alloc] initWithNibName:@"SlideViewController" bundle:nil]];
@@ -38,7 +35,7 @@
     }
     [MobClick startWithAppkey:@"4fab36cf527015375d000049"];
     [MobClick checkUpdate];
-    [MobClick setLogEnabled:YES];
+    [MobClick setLogEnabled:NO];
     [self.window makeKeyAndVisible];
     return YES;
 }
