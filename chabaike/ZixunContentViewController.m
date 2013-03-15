@@ -99,6 +99,11 @@
     [shareButton addTarget:self action:@selector(contentShare:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:shareButton];
     [self.view addSubview:backButton];
+    UIButton *searchViewButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [searchViewButton setFrame:CGRectMake(20, 300, 20, 20)];
+    [searchViewButton setTitle:@"下一页" forState:UIControlStateNormal];
+    [searchViewButton addTarget:self action:@selector(searchViewGo:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:searchViewButton];
 }
 
 - (void)didReceiveMemoryWarning
@@ -147,6 +152,12 @@
                                     shareImage:nil
                                     shareToSnsNames:[NSArray arrayWithObjects:UMShareToQzone,UMShareToRenren,UMShareToQzone,UMShareToDouban,UMShareToTencent,UMShareToSina,nil]
                                     delegate:nil];
+}
+
+- (void)searchViewGo:(id)sender
+{
+    SearchContentViewController *searchVC = [[SearchContentViewController alloc]init];
+    [self.navigationController pushViewController:searchVC animated:YES];
 }
 
 @end

@@ -10,6 +10,7 @@
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
 #import "UMSocialSnsService.h"
+#import "SearchContentViewController.h"
 @interface ZixunContentViewController : UIViewController<
 UIWebViewDelegate
 >
