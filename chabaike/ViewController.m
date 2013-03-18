@@ -363,9 +363,54 @@
             [HUD hide:YES];
         }];
         [ApplicationDelegate.appEngine enqueueOperation:op];
+    } else if (state == k_RETURN_REFRESH) {
+        MBProgressHUD *HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"news.getListByType",@"method",requestType,@"type", nil];
+        MKNetworkOperation *op = [YMGlobal getOperation:params];
+        [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
+            SBJsonParser *parser = [[SBJsonParser alloc]init];
+            NSMutableArray *tempArray = [[NSMutableArray alloc]init];
+            NSMutableDictionary *object = [parser objectWithData:[completedOperation responseData]];
+            if([[object objectForKey:@"errorMessage"]isEqualToString:@"success"]) {
+                tempArray = [object objectForKey:@"data"];
+                if (scrollView.tag == 2) {
+                    tab2Array = tempArray;
+                    if ([tempArray count] < 10) {
+                        [refreshTableView2 reloadData:NO];
+                    } else {
+                        [refreshTableView2 reloadData:YES];
+                    }
+                } else if (scrollView.tag == 3) {
+                    tab3Array = tempArray;
+                    if ([tempArray count] < 10) {
+                        [refreshTableView3 reloadData:NO];
+                    } else {
+                        [refreshTableView3 reloadData:YES];
+                    }
+                } else if (scrollView.tag == 4) {
+                    tab4Array = tempArray;
+                    if ([tempArray count] < 10) {
+                        [refreshTableView4 reloadData:NO];
+                    } else {
+                        [refreshTableView4 reloadData:YES];
+                    }
+                } else if (scrollView.tag == 5) {
+                    tab5Array = tempArray;
+                    if ([tempArray count] < 10) {
+                        [refreshTableView5 reloadData:NO];
+                    } else {
+                        [refreshTableView5 reloadData:YES];
+                    }
+                }
+            }
+            [HUD hide:YES];
+        } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
+            NSLog(@"%@",error);
+            [HUD hide:YES];
+        }];
+        [ApplicationDelegate.appEngine enqueueOperation:op];
     }
 }
-
 // UITableView
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {

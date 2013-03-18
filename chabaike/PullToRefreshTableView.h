@@ -8,9 +8,11 @@
 #define k_PULL_STATE_NOScroll       5     //  状态标识：无需加载数据
 
 #define k_RETURN_DO_NOTHING         0     //  返回值：不执行
-#define k_RETURN_LOADMORE           2     //  返回值：加载更多
+#define k_RETURN_LOADMORE           1     //  返回值：加载更多
+#define k_RETURN_REFRESH            2     //  返回值：加载更多
 
 #define k_VIEW_TYPE_FOOTER          1     //  视图标识：上拖加载视图
+#define k_VIEW_TYPE_HEADER          2     //  视图标识：上拖加载视图
 
 #define k_STATE_VIEW_HEIGHT         40    //  视图窗体：视图高度
 #define k_STATE_VIEW_INDICATE_WIDTH 60    //  视图窗体：视图箭头指示器宽度
@@ -56,7 +58,8 @@
  *
  **/
 @interface PullToRefreshTableView : UITableView{
-    StateView * footerView;  //  上拖加载视图
+    StateView *footerView;      // 上拖加载视图
+    StateView *headerView;      // 下拉刷新视图
 }
 
 /**
