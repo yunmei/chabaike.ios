@@ -12,4 +12,5 @@
 
 @property (strong, nonatomic)NSMutableArray *searchKeyHotList;
 @property (strong, nonatomic)UITextField *searchContentFeild;
+@property (strong, nonatomic)NSMutableArray *hotButtonStringArrray;
 @end

@@ -47,7 +47,8 @@
 // 连接数据库转换
 - (BOOL)connectapp:(NSString *)app
 {
-    if (sqlite3_open([[self dataFilePath:app] UTF8String], &link) != SQLITE_OK) {
+    if (sqlite3_open([[self dataFilePath:app] UTF8String], &link) != SQLITE_OK)
+    {
         sqlite3_close(link);
         return NO;
     }

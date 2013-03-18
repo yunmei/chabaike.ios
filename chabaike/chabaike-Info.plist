@@ -36,7 +36,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>chabaike</string>
+				<string>com.maimaicha.chabaike</string>
 			</array>
 		</dict>
 	</array>
