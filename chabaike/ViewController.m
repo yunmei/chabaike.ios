@@ -44,7 +44,7 @@
     [tabImageView setImage:[UIImage imageNamed:@"tab_bg.png"]];
     [self.view addSubview:tabImageView];
     [self.view addSubview:self.pageControlView];
-    
+
     // 创建TabButton
     [self.view addSubview:self.btnTab1];
     self.currentTabBtn = self.btnTab1;
@@ -702,7 +702,7 @@
 - (UIScrollView *)tabScrollView
 {
     if (tabScrollView == nil) {
-        tabScrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 46, 320, 434)];
+        tabScrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 46, 320, [UIScreen mainScreen].bounds.size.height-26)];
         tabScrollView.contentSize = CGSizeMake(1600, 434);
         tabScrollView.pagingEnabled = YES;
         tabScrollView.scrollEnabled = YES;
@@ -726,7 +726,7 @@
 - (UITableView *)refreshTableView1
 {
     if (refreshTableView1 == nil) {
-        refreshTableView1 = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, 320, 414)];
+        refreshTableView1 = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, 320, [UIScreen mainScreen].bounds.size.height-66)];
         [refreshTableView1 setRowHeight:80.0];
         [refreshTableView4 setBackgroundColor:[UIColor yellowColor]];
         refreshTableView1.delegate = self;
@@ -738,7 +738,7 @@
 - (PullToRefreshTableView *)refreshTableView2
 {
     if (refreshTableView2 == nil) {
-        refreshTableView2 = [[PullToRefreshTableView alloc]initWithFrame:CGRectMake(320, 0, 320, 414)];
+        refreshTableView2 = [[PullToRefreshTableView alloc]initWithFrame:CGRectMake(320, 0, 320, [UIScreen mainScreen].bounds.size.height-66)];
         [refreshTableView2 setRowHeight:80.0];
         refreshTableView2.delegate = self;
         refreshTableView2.dataSource = self;
@@ -749,7 +749,7 @@
 - (PullToRefreshTableView *)refreshTableView3
 {
     if (refreshTableView3 == nil) {
-        refreshTableView3 = [[PullToRefreshTableView alloc]initWithFrame:CGRectMake(640, 0, 320, 414)];
+        refreshTableView3 = [[PullToRefreshTableView alloc]initWithFrame:CGRectMake(640, 0, 320, [UIScreen mainScreen].bounds.size.height-66)];
         [refreshTableView3 setRowHeight:80.0];
         refreshTableView3.delegate = self;
         refreshTableView3.dataSource = self;
@@ -760,7 +760,7 @@
 - (PullToRefreshTableView *)refreshTableView4
 {
     if (refreshTableView4 == nil) {
-        refreshTableView4 = [[PullToRefreshTableView alloc]initWithFrame:CGRectMake(960, 0, 320, 414)];
+        refreshTableView4 = [[PullToRefreshTableView alloc]initWithFrame:CGRectMake(960, 0, 320, [UIScreen mainScreen].bounds.size.height-66)];
         [refreshTableView4 setRowHeight:80.0];
         refreshTableView4.delegate = self;
         refreshTableView4.dataSource = self;
@@ -771,7 +771,7 @@
 - (PullToRefreshTableView *)refreshTableView5
 {
     if (refreshTableView5 == nil) {
-        refreshTableView5 = [[PullToRefreshTableView alloc]initWithFrame:CGRectMake(1280, 0, 320, 414)];
+        refreshTableView5 = [[PullToRefreshTableView alloc]initWithFrame:CGRectMake(1280, 0, 320, [UIScreen mainScreen].bounds.size.height-66)];
         [refreshTableView5 setRowHeight:80.0];
         refreshTableView5.delegate = self;
         refreshTableView5.dataSource = self;
