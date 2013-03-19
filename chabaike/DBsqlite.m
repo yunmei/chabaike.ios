@@ -23,8 +23,6 @@
     else {
         documentPath= [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
     }
-    NSLog(@"documentPath%@",documentPath);
-    
     NSString *realPath = [documentPath stringByAppendingPathComponent:dbname];
     
     NSString *sourcePath = [[NSBundle mainBundle] pathForResource:[dbname stringByReplacingOccurrencesOfString:@".sqlite" withString:@""] ofType:@"sqlite"];
@@ -37,7 +35,6 @@
             NSLog(@"%@",[error localizedDescription]);
         }
     }
-    
     return realPath;
 }
 // 连接数据库

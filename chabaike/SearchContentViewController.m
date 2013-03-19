@@ -157,8 +157,10 @@
     {
         self.searchKeyHotList = [dbsqlite fetchAll:@"select * from searchKeysHot;"];
         NSLog(@"self.searchKeyHotList%@",self.searchKeyHotList);
-        [dbsqlite close];
-        [self getHotKeyButtonTitleArray];
+        if([self.searchKeyHotList count]>0)
+        {
+            [self getHotKeyButtonTitleArray];
+        }
     }
 }
 
