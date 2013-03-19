@@ -37,6 +37,10 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    if([UIScreen mainScreen].bounds.size.height >480)
+    {
+        [self.contentScrollView setFrame:CGRectMake(0, 0, 320, 415+([UIScreen mainScreen].bounds.size.height -480))];
+    }
     [self.view addGestureRecognizer:self.swipeGesture];
     //生成头部绿色背景
     self.headerView = [[UIView alloc]initWithFrame:CGRectMake(0,0,320, 120)];
@@ -94,18 +98,19 @@
         NSLog(@"%@",error);
     }];
     [ApplicationDelegate.appEngine enqueueOperation:op];
+    CGSize mianSize = [UIScreen mainScreen].bounds.size;
     //生成底部返回和分享按钮
     UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [backButton setFrame:CGRectMake(0, 415, 106.7, 45)];
+    [backButton setFrame:CGRectMake(0, mianSize.height-65, 106.7, 45)];
     [backButton setBackgroundImage:[UIImage imageNamed:@"ContentBack.png"] forState:UIControlStateNormal];
     [backButton addTarget:self action:@selector(goBack:) forControlEvents:UIControlEventTouchUpInside];
     //生成收藏按钮
     UIButton *collectButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [collectButton setFrame:CGRectMake(106.7, 415, 106.7, 45)];
+    [collectButton setFrame:CGRectMake(106.7, mianSize.height-65, 106.7, 45)];
     [collectButton setBackgroundImage:[UIImage imageNamed:@"CollectContent.png"] forState:UIControlStateNormal];
     [collectButton addTarget:self action:@selector(collectContent:) forControlEvents:UIControlEventTouchUpInside];
     UIButton *shareButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [shareButton setFrame:CGRectMake(213.4, 415, 106.7, 45)];
+    [shareButton setFrame:CGRectMake(213.4, mianSize.height-65, 106.7, 45)];
     [shareButton setBackgroundImage:[UIImage imageNamed:@"ContentShare.png"] forState:UIControlStateNormal];
     [shareButton addTarget:self action:@selector(contentShare:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:collectButton];
