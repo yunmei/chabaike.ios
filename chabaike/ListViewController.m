@@ -13,7 +13,9 @@
 @end
 
 @implementation ListViewController
-
+@synthesize refreshTableView;
+@synthesize tableArray;
+@synthesize type;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -26,7 +28,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -35,4 +37,22 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)viewDidUnload
+{
+    self.refreshTableView = nil;
+    self.tableArray = nil;
+    [super viewDidUnload];
+}
+
+- (PullToRefreshTableView *)refreshTableView
+{
+    if (refreshTableView == nil) {
+        refreshTableView = [[PullToRefreshTableView alloc]initWithFrame:CGRectMake(0, 0, 320, [UIScreen mainScreen].bounds.size.height-20)];
+        [refreshTableView setRowHeight:80.0];
+        refreshTableView.delegate = self;
+        refreshTableView.dataSource = self;
+        refreshTableView.tag = 1;
+    }
+    return refreshTableView;
+}
 @end
