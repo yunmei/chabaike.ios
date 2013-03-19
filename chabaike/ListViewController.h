@@ -20,5 +20,5 @@
 @property (strong, nonatomic) PullToRefreshTableView *refreshTableView;
 @property (strong, nonatomic) NSMutableArray *tableArray;
 @property (nonatomic) int type;
-
+@property (strong, nonatomic) NSString *keyword;
 @end

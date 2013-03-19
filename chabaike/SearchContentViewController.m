@@ -7,7 +7,7 @@
 //
 
 #import "SearchContentViewController.h"
-
+#import "ListViewController.h"
 
 @interface SearchContentViewController ()
 
@@ -194,6 +194,10 @@
 - (void)goSearch:(UIButton *)sender
 {
     [self saveSearchKey:self.searchContentFeild.text];
+    ListViewController *listViewController = [[ListViewController alloc]init];
+    listViewController.type = LISTVIEW_TYPE_SEARCH;
+    listViewController.keyword = self.searchContentFeild.text;
+    [self.navigationController pushViewController:listViewController animated:YES];
 }
 
 - (void)tapOnScreen
