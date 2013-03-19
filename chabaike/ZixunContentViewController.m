@@ -179,7 +179,8 @@
     DBsqlite *db = [[DBsqlite alloc]init];
     if([db connectFav])
     {
-        [db exec:@"CREATE TABLE IF NOT EXISTS collection ('id','title','wap_content','create_time','weiboUrl,'author','collect_time');"];
+        NSString *query1 = @"create table if not exists collection ('id','title','wap_content','create_time','weiboUrl','author','collect_time');";
+        [db exec:query1];
         NSString *query = [NSString stringWithFormat:@"collection where id = '%@';",[self.contentInDetail objectForKey:@"id"]];
         NSString *resultCount = [db count:query];
         NSDate *dateNow = [NSDate dateWithTimeIntervalSinceNow:0];
@@ -188,7 +189,7 @@
         NSString *queryString;
         if([resultCount isEqualToString:@"0"])
         {
-           queryString = [NSString stringWithFormat:@"INSERT INTO collection ('id','title','wap_content','create_time','weiboUrl,'author','collect_time') VALUES ('%@','%@','%@','%@','%@','%@','%@');",[self.contentInDetail objectForKey:@"id"],[self.contentInDetail objectForKey:@"title"],[self.contentInDetail objectForKey:@"wap_content"],[self.contentInDetail objectForKey:@"create_time"],[self.contentInDetail objectForKey:@"weiboUrl"],[self.contentInDetail objectForKey:@"author"],timeString];
+           queryString = [NSString stringWithFormat:@"INSERT INTO collection ('id','title','wap_content','create_time','weiboUrl','author','collect_time') VALUES ('%@','%@','%@','%@','%@','%@','%@');",[self.contentInDetail objectForKey:@"id"],[self.contentInDetail objectForKey:@"title"],[self.contentInDetail objectForKey:@"wap_content"],[self.contentInDetail objectForKey:@"create_time"],[self.contentInDetail objectForKey:@"weiboUrl"],[self.contentInDetail objectForKey:@"author"],timeString];
         }else{
             queryString  = [NSString stringWithFormat:@"update collection set collect_time = '%@' where id = '%@';",timeString,[self.contentInDetail objectForKey:@"id"]];
         }
