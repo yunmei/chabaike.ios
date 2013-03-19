@@ -11,6 +11,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "UMSocialSnsService.h"
 #import "SearchContentViewController.h"
+#import "DBsqlite.h"
 @interface ZixunContentViewController : UIViewController<
 UIWebViewDelegate
 >
@@ -23,6 +24,6 @@ UIWebViewDelegate
 @property (strong,nonatomic)UIView *headerView;
 @property (strong,nonatomic)UILabel *detailLable;
 @property (strong,nonatomic)NSString *shareContent;
-
-
+@property (strong,nonatomic)NSString *ziXunContent;
+@property (strong,nonatomic)NSMutableDictionary *contentInDetail;
 @end

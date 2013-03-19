@@ -22,6 +22,8 @@
 @synthesize detailLable;
 @synthesize contentScrollView;
 @synthesize shareContent;
+@synthesize ziXunContent;
+@synthesize contentInDetail = _contentInDetail;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -49,17 +51,20 @@
         if([[object objectForKey:@"errorMessage"]isEqualToString:@"success"])
         {
             NSMutableDictionary *data = [object objectForKey:@"data"];
-            NSString *titleContent = [data objectForKey:@"title"];
-            NSString *content = [data objectForKey:@"wap_content"];
-            NSString *weiboUrl = [data objectForKey:@"weiboUrl"];
-            if(titleContent)
+            [self.contentInDetail setObject:[data objectForKey:@"id"] forKey:@"id"];
+            [self.contentInDetail setObject:[data objectForKey:@"title"] forKey:@"title"];
+            [self.contentInDetail setObject:[data objectForKey:@"wap_content"] forKey:@"wap_content"];
+            [self.contentInDetail setObject:[data objectForKey:@"create_time"] forKey:@"create_time"];
+            [self.contentInDetail setObject:[data objectForKey:@"weiboUrl"] forKey:@"weiboUrl"];
+            [self.contentInDetail setObject:[data objectForKey:@"author"] forKey:@"author"];
+            if([self.contentInDetail objectForKey:@"title"])
             {
                 //计算内容所需要的高度
-                CGSize size = [titleContent sizeWithFont:[UIFont systemFontOfSize:22.0] constrainedToSize:CGSizeMake(280.0, 1000.0f) lineBreakMode:UILineBreakModeWordWrap];
+                CGSize size = [[self.contentInDetail objectForKey:@"title"] sizeWithFont:[UIFont systemFontOfSize:22.0] constrainedToSize:CGSizeMake(280.0, 1000.0f) lineBreakMode:UILineBreakModeWordWrap];
                 CGFloat height = size.height;
                 self.contentTitleLable = [[UILabel alloc]initWithFrame:CGRectMake(10, 10, 280, height)];
                 [self.contentTitleLable setNumberOfLines:0];
-                self.contentTitleLable.text = titleContent;
+                self.contentTitleLable.text = [self.contentInDetail objectForKey:@"title"];
                 self.contentTitleLable.backgroundColor = [UIColor clearColor];
                 [self.contentTitleLable setFont:[UIFont systemFontOfSize:22.0]];
                 [self.contentTitleLable setTextColor:[UIColor whiteColor]];
@@ -67,18 +72,19 @@
                 //设置来源，作者，发表时间
                 self.detailLable = [[UILabel alloc]initWithFrame:CGRectMake(10, height+20, 280, 20)];
                 [self.detailLable setFont:[UIFont systemFontOfSize:14.0]];
-                [self.detailLable setText:[NSString stringWithFormat:@"%@    %@",[data objectForKey:@"author"],[data objectForKey:@"create_time"]]];
+                [self.detailLable setText:[NSString stringWithFormat:@"%@    %@",[self.contentInDetail objectForKey:@"author"],[self.contentInDetail objectForKey:@"create_time"]]];
                 [self.detailLable setBackgroundColor:[UIColor clearColor]];
                 [self.detailLable setTextColor:[UIColor whiteColor]];
                 [self.headerView  addSubview:self.detailLable];
                 [self.headerView setFrame:CGRectMake(0,0,320, height+45)];
                 //设置分享内容
-                self.shareContent = [titleContent stringByAppendingString:weiboUrl];
-                if(content)
+                self.shareContent = [[self.contentInDetail objectForKey:@"title"] stringByAppendingString:[self.contentInDetail objectForKey:@"weiboUrl"]];
+                if([self.contentInDetail objectForKey:@"wap_content"])
                 {
+                    self.ziXunContent = [self.contentInDetail objectForKey:@"wap_content"];
                     self.contentWebView = [[UIWebView alloc]initWithFrame:CGRectMake(0, height+45, 320, 295)];
                     self.contentWebView.delegate = self;
-                    [self.contentWebView loadHTMLString:content baseURL:[NSURL URLWithString:@"about:blank"]];
+                    [self.contentWebView loadHTMLString:self.ziXunContent baseURL:[NSURL URLWithString:@"about:blank"]];
                     
                 }
             }
@@ -90,13 +96,19 @@
     [ApplicationDelegate.appEngine enqueueOperation:op];
     //生成底部返回和分享按钮
     UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [backButton setFrame:CGRectMake(0, 415, 160, 45)];
+    [backButton setFrame:CGRectMake(0, 415, 106.7, 45)];
     [backButton setBackgroundImage:[UIImage imageNamed:@"ContentBack.png"] forState:UIControlStateNormal];
     [backButton addTarget:self action:@selector(goBack:) forControlEvents:UIControlEventTouchUpInside];
+    //生成收藏按钮
+    UIButton *collectButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [collectButton setFrame:CGRectMake(106.7, 415, 106.7, 45)];
+    [collectButton setBackgroundImage:[UIImage imageNamed:@"CollectContent.png"] forState:UIControlStateNormal];
+    [collectButton addTarget:self action:@selector(collectContent:) forControlEvents:UIControlEventTouchUpInside];
     UIButton *shareButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [shareButton setFrame:CGRectMake(160, 415, 160, 45)];
+    [shareButton setFrame:CGRectMake(213.4, 415, 106.7, 45)];
     [shareButton setBackgroundImage:[UIImage imageNamed:@"ContentShare.png"] forState:UIControlStateNormal];
     [shareButton addTarget:self action:@selector(contentShare:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:collectButton];
     [self.view addSubview:shareButton];
     [self.view addSubview:backButton];
     UIButton *searchViewButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
@@ -158,6 +170,55 @@
 {
     SearchContentViewController *searchVC = [[SearchContentViewController alloc]init];
     [self.navigationController pushViewController:searchVC animated:YES];
+}
+
+//相应收藏按钮事件
+
+- (void)collectContent:(id)sender
+{
+    DBsqlite *db = [[DBsqlite alloc]init];
+    if([db connectFav])
+    {
+        [db exec:@"CREATE TABLE IF NOT EXISTS collection ('id','title','wap_content','create_time','weiboUrl,'author','collect_time');"];
+        NSString *query = [NSString stringWithFormat:@"collection where id = '%@';",[self.contentInDetail objectForKey:@"id"]];
+        NSString *resultCount = [db count:query];
+        NSDate *dateNow = [NSDate dateWithTimeIntervalSinceNow:0];
+        NSTimeInterval baseTime = [dateNow timeIntervalSince1970];
+        NSString *timeString = [NSString stringWithFormat:@"%.0f",baseTime];
+        NSString *queryString;
+        if([resultCount isEqualToString:@"0"])
+        {
+           queryString = [NSString stringWithFormat:@"INSERT INTO collection ('id','title','wap_content','create_time','weiboUrl,'author','collect_time') VALUES ('%@','%@','%@','%@','%@','%@','%@');",[self.contentInDetail objectForKey:@"id"],[self.contentInDetail objectForKey:@"title"],[self.contentInDetail objectForKey:@"wap_content"],[self.contentInDetail objectForKey:@"create_time"],[self.contentInDetail objectForKey:@"weiboUrl"],[self.contentInDetail objectForKey:@"author"],timeString];
+        }else{
+            queryString  = [NSString stringWithFormat:@"update collection set collect_time = '%@' where id = '%@';",timeString,[self.contentInDetail objectForKey:@"id"]];
+        }
+        if([db exec:queryString])
+        {
+            UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"友情提示"
+                                                         message:@"恭喜您，您已成功收藏该百科！"
+                                                        delegate:self
+                                               cancelButtonTitle:@"ok"
+                                               otherButtonTitles:nil, nil];
+            [alert show];
+        }else{
+            UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"友情提示"
+                                                         message:@"收藏失败，请重新收藏！"
+                                                        delegate:self
+                                               cancelButtonTitle:@"ok"
+                                               otherButtonTitles:nil, nil];
+            [alert show];
+        }
+    }
+}
+
+
+- (NSMutableDictionary *)contentInDetail
+{
+    if(_contentInDetail == nil)
+    {
+        _contentInDetail = [[NSMutableDictionary alloc]init];
+    }
+    return _contentInDetail;
 }
 
 @end

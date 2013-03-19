@@ -23,6 +23,7 @@
     else {
         documentPath= [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
     }
+    NSLog(@"documentPath%@",documentPath);
     
     NSString *realPath = [documentPath stringByAppendingPathComponent:dbname];
     
