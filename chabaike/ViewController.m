@@ -46,7 +46,12 @@
     [tabImageView setImage:[UIImage imageNamed:@"tab_bg.png"]];
     [self.view addSubview:tabImageView];
     [self.view addSubview:self.pageControlView];
-
+    
+    // 增加左划手势进入searchView
+    UISwipeGestureRecognizer *gestureRecognizer = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(goSearchView)];
+    [gestureRecognizer setDirection:UISwipeGestureRecognizerDirectionLeft];
+    [self.view addGestureRecognizer:gestureRecognizer];
+    
     // 创建TabButton
     [self.view addSubview:self.btnTab1];
     self.currentTabBtn = self.btnTab1;
@@ -636,7 +641,7 @@
     [UIView commitAnimations];
 }
 // 跳转到searchView
-- (void)goSearchView:(id)sender
+- (void)goSearchView
 {
     SearchContentViewController *searchViewController = [[SearchContentViewController alloc]init];
     [self.navigationController pushViewController:searchViewController animated:YES];
@@ -745,7 +750,7 @@
     if (btnMore == nil) {
         btnMore = [[UIButton alloc]initWithFrame:CGRectMake(295, 13, 12, 16)];
         [btnMore setBackgroundImage:[UIImage imageNamed:@"more"] forState:UIControlStateNormal];
-        [btnMore addTarget:self action:@selector(goSearchView:) forControlEvents:UIControlEventTouchUpInside];
+        [btnMore addTarget:self action:@selector(goSearchView) forControlEvents:UIControlEventTouchUpInside];
     }
     return btnMore;
 }
