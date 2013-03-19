@@ -19,6 +19,7 @@
 @property (strong, nonatomic) UIButton *btnTab3;
 @property (strong, nonatomic) UIButton *btnTab4;
 @property (strong, nonatomic) UIButton *btnTab5;
+@property (strong, nonatomic) UIButton *btnMore;
 @property (strong, nonatomic) UIImageView *pageControlView;
 @property (strong, nonatomic) UIButton *currentTabBtn;
 @property (strong, nonatomic) UIScrollView *tabScrollView;

@@ -9,6 +9,7 @@
 #import "ViewController.h"
 #import "NewsCell.h"
 #import "MBProgressHUD.h"
+#import "SearchContentViewController.h"
 
 @interface ViewController ()
 
@@ -37,6 +38,7 @@
 @synthesize adArray;
 @synthesize adLabel;
 @synthesize adPageControl;
+@synthesize btnMore;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -52,6 +54,7 @@
     [self.view addSubview:self.btnTab3];
     [self.view addSubview:self.btnTab4];
     [self.view addSubview:self.btnTab5];
+    [self.view addSubview:self.btnMore];
     
     // ScrollView显示
     [self.tabScrollView addSubview:self.refreshTableView1];
@@ -241,7 +244,7 @@
         //动画开始
         [UIView beginAnimations:nil context:nil];
         [UIView setAnimationDuration:0.3];
-        self.pageControlView.frame = CGRectMake((page-1) * 64, 42, 64, 3);
+        self.pageControlView.frame = CGRectMake((page-1) * 57, 42, 57, 3);
         [UIView commitAnimations];
 
         [self.currentTabBtn setTitleColor:[UIColor colorWithRed:97/255.0 green:97/255.0 blue:97/255.0 alpha:1.0] forState:UIControlStateNormal];
@@ -262,6 +265,7 @@
                 [self.btnTab4 setTitleColor:[UIColor colorWithRed:61/255.0 green:157/255.0 blue:1/255.0 alpha:1.0] forState:UIControlStateNormal];
                 self.currentTabBtn = self.btnTab4;
                 break;
+                
             case 5:
                 [self.btnTab5 setTitleColor:[UIColor colorWithRed:61/255.0 green:157/255.0 blue:1/255.0 alpha:1.0] forState:UIControlStateNormal];
                 self.currentTabBtn = self.btnTab5;
@@ -627,9 +631,15 @@
     //动画开始
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationDuration:0.3];
-    self.pageControlView.frame = CGRectMake((typeBtn.tag-1) * 64, 42, 64, 3);
+    self.pageControlView.frame = CGRectMake((typeBtn.tag-1) * 57, 42, 57, 3);
     [self.tabScrollView setContentOffset:CGPointMake(320 * (typeBtn.tag-1), 0)];
     [UIView commitAnimations];
+}
+// 跳转到searchView
+- (void)goSearchView:(id)sender
+{
+    SearchContentViewController *searchViewController = [[SearchContentViewController alloc]init];
+    [self.navigationController pushViewController:searchViewController animated:YES];
 }
 
 - (void)didReceiveMemoryWarning
@@ -660,6 +670,7 @@
     [self setTab5Array:nil];
     [self setAdLabel:nil];
     [self setAdPageControl:nil];
+    [self setBtnMore:nil];
     [super viewDidUnload];
 }
 
@@ -667,7 +678,7 @@
 - (UIButton *)btnTab1
 {
     if (btnTab1 == nil) {
-        btnTab1 = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 64, 42)];
+        btnTab1 = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 57, 42)];
         [btnTab1 setTag:1];
         [btnTab1 setTitle:@"头条" forState:UIControlStateNormal];
         [btnTab1.titleLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:20]];
@@ -680,7 +691,7 @@
 - (UIButton *)btnTab2
 {
     if (btnTab2 == nil) {
-        btnTab2 = [[UIButton alloc]initWithFrame:CGRectMake(64, 0, 64, 42)];
+        btnTab2 = [[UIButton alloc]initWithFrame:CGRectMake(57, 0, 57, 42)];
         [btnTab2 setTag:2];
         [btnTab2 setTitle:@"资讯" forState:UIControlStateNormal];
         [btnTab2.titleLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:20]];
@@ -693,7 +704,7 @@
 - (UIButton *)btnTab3
 {
     if (btnTab3 == nil) {
-        btnTab3 = [[UIButton alloc]initWithFrame:CGRectMake(128, 0, 64, 42)];
+        btnTab3 = [[UIButton alloc]initWithFrame:CGRectMake(114, 0, 57, 42)];
         [btnTab3 setTag:3];
         [btnTab3 setTitle:@"经营" forState:UIControlStateNormal];
         [btnTab3.titleLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:20]];
@@ -706,9 +717,9 @@
 - (UIButton *)btnTab4
 {
     if (btnTab4 == nil) {
-        btnTab4 = [[UIButton alloc]initWithFrame:CGRectMake(192, 0, 64, 42)];
+        btnTab4 = [[UIButton alloc]initWithFrame:CGRectMake(171, 0, 57, 42)];
         [btnTab4 setTag:4];
-        [btnTab4 setTitle:@"茶百科" forState:UIControlStateNormal];
+        [btnTab4 setTitle:@"百科" forState:UIControlStateNormal];
         [btnTab4.titleLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:20]];
         [btnTab4 setTitleColor:[UIColor colorWithRed:97/255.0 green:97/255.0 blue:97/255.0 alpha:1.0] forState:UIControlStateNormal];
         [btnTab4 setBackgroundImage:[UIImage imageNamed:@"btn_bg"] forState:UIControlStateNormal];
@@ -719,7 +730,7 @@
 - (UIButton *)btnTab5
 {
     if (btnTab5 == nil) {
-        btnTab5 = [[UIButton alloc]initWithFrame:CGRectMake(256, 0, 64, 42)];
+        btnTab5 = [[UIButton alloc]initWithFrame:CGRectMake(228, 0, 57, 42)];
         [btnTab5 setTag:5];
         [btnTab5 setTitle:@"数据" forState:UIControlStateNormal];
         [btnTab5.titleLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:20]];
@@ -729,10 +740,19 @@
     }
     return btnTab5;
 }
+- (UIButton *)btnMore
+{
+    if (btnMore == nil) {
+        btnMore = [[UIButton alloc]initWithFrame:CGRectMake(295, 13, 12, 16)];
+        [btnMore setBackgroundImage:[UIImage imageNamed:@"more"] forState:UIControlStateNormal];
+        [btnMore addTarget:self action:@selector(goSearchView:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return btnMore;
+}
 - (UIImageView *)pageControlView
 {
     if (pageControlView == nil) {
-        pageControlView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 42, 64, 3)];
+        pageControlView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 42, 55, 3)];
         [pageControlView setImage:[UIImage imageNamed:@"page_control.png"]];
     }
     return pageControlView;
@@ -740,7 +760,7 @@
 - (UIButton *)currentTabBtn
 {
     if (currentTabBtn == nil) {
-        currentTabBtn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 64, 42)];
+        currentTabBtn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 55, 42)];
     }
     return currentTabBtn;
 }

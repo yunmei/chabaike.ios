@@ -71,6 +71,7 @@
 		4628949E16EECF1000F94357 /* SBJsonUTF8Stream.m in Sources */ = {isa = PBXBuildFile; fileRef = 4628949116EECF1000F94357 /* SBJsonUTF8Stream.m */; };
 		4628949F16EECF1000F94357 /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4628949316EECF1000F94357 /* SBJsonWriter.m */; };
 		462894A316EED09C00F94357 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 462894A216EED09C00F94357 /* Security.framework */; };
+		465B9E4016F81B3300E1825F /* more.png in Resources */ = {isa = PBXBuildFile; fileRef = 465B9E3F16F81B3300E1825F /* more.png */; };
 		4686219716F80CCD006D0573 /* ListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4686219516F80CCD006D0573 /* ListViewController.m */; };
 		4686219816F80CCD006D0573 /* ListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4686219616F80CCD006D0573 /* ListViewController.xib */; };
 		AA0DD19D16F6FD1E001C8F0C /* ContentShare.png in Resources */ = {isa = PBXBuildFile; fileRef = AA0DD19C16F6FD1E001C8F0C /* ContentShare.png */; };
@@ -222,6 +223,7 @@
 		4628949216EECF1000F94357 /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
 		4628949316EECF1000F94357 /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonWriter.m; sourceTree = "<group>"; };
 		462894A216EED09C00F94357 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		465B9E3F16F81B3300E1825F /* more.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = more.png; sourceTree = "<group>"; };
 		4686219416F80CCD006D0573 /* ListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListViewController.h; sourceTree = "<group>"; };
 		4686219516F80CCD006D0573 /* ListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListViewController.m; sourceTree = "<group>"; };
 		4686219616F80CCD006D0573 /* ListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ListViewController.xib; sourceTree = "<group>"; };
@@ -418,6 +420,7 @@
 		047854A11548D8820098399C /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				465B9E3F16F81B3300E1825F /* more.png */,
 				AA0DD1A016F6FD2C001C8F0C /* CollectContent.png */,
 				AA0DD19E16F6FD23001C8F0C /* ContentBack.png */,
 				AA0DD19C16F6FD1E001C8F0C /* ContentShare.png */,
@@ -808,6 +811,7 @@
 				AA0DD19F16F6FD23001C8F0C /* ContentBack.png in Resources */,
 				AA0DD1A116F6FD2C001C8F0C /* CollectContent.png in Resources */,
 				4686219816F80CCD006D0573 /* ListViewController.xib in Resources */,
+				465B9E4016F81B3300E1825F /* more.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
