@@ -107,6 +107,7 @@
 		AAB7920616F04FAE00AA619F /* SearchContentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AAB7920416F04FAE00AA619F /* SearchContentViewController.xib */; };
 		AAB7920816F0566900AA619F /* SearchHeader.png in Resources */ = {isa = PBXBuildFile; fileRef = AAB7920716F0566900AA619F /* SearchHeader.png */; };
 		AAB7920A16F0573400AA619F /* Search_backBtn.png in Resources */ = {isa = PBXBuildFile; fileRef = AAB7920916F0573400AA619F /* Search_backBtn.png */; };
+		AAB9668016F9461200D60E7A /* CollectCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB9667F16F9461200D60E7A /* CollectCell.m */; };
 		AACD4A2E16F2AF2400EC2FC6 /* SearchBorder.png in Resources */ = {isa = PBXBuildFile; fileRef = AACD4A2D16F2AF2400EC2FC6 /* SearchBorder.png */; };
 		AAECF71916F16F0D00B8AB2C /* RightTopButton.png in Resources */ = {isa = PBXBuildFile; fileRef = AAECF71816F16F0D00B8AB2C /* RightTopButton.png */; };
 		AAECF71E16F1A05700B8AB2C /* DBsqlite.m in Sources */ = {isa = PBXBuildFile; fileRef = AAECF71C16F19BD400B8AB2C /* DBsqlite.m */; };
@@ -284,6 +285,8 @@
 		AAB7920416F04FAE00AA619F /* SearchContentViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SearchContentViewController.xib; sourceTree = "<group>"; };
 		AAB7920716F0566900AA619F /* SearchHeader.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SearchHeader.png; sourceTree = "<group>"; };
 		AAB7920916F0573400AA619F /* Search_backBtn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Search_backBtn.png; sourceTree = "<group>"; };
+		AAB9667E16F9461200D60E7A /* CollectCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectCell.h; sourceTree = "<group>"; };
+		AAB9667F16F9461200D60E7A /* CollectCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectCell.m; sourceTree = "<group>"; };
 		AACD4A2D16F2AF2400EC2FC6 /* SearchBorder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SearchBorder.png; sourceTree = "<group>"; };
 		AAECF71816F16F0D00B8AB2C /* RightTopButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = RightTopButton.png; sourceTree = "<group>"; };
 		AAECF71B16F19BD400B8AB2C /* DBsqlite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBsqlite.h; sourceTree = "<group>"; };
@@ -706,6 +709,8 @@
 			children = (
 				4628944A16EECE5700F94357 /* NewsCell.h */,
 				4628944B16EECE5800F94357 /* NewsCell.m */,
+				AAB9667E16F9461200D60E7A /* CollectCell.h */,
+				AAB9667F16F9461200D60E7A /* CollectCell.m */,
 			);
 			name = CustomClass;
 			sourceTree = "<group>";
@@ -909,6 +914,7 @@
 				AAECF71E16F1A05700B8AB2C /* DBsqlite.m in Sources */,
 				4686219716F80CCD006D0573 /* ListViewController.m in Sources */,
 				46154B7F16F945A000B75CEE /* AboutViewController.m in Sources */,
+				AAB9668016F9461200D60E7A /* CollectCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

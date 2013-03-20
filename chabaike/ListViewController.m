@@ -9,6 +9,8 @@
 #import "ListViewController.h"
 #import "MBProgressHUD.h"
 #import "NewsCell.h"
+#import "CollectCell.h"
+#import "ZixunContentViewController.h"
 
 @interface ListViewController ()
 
@@ -59,12 +61,12 @@
         [titleLable setText:@"我的收藏"];
         [titleLable setFont:[UIFont systemFontOfSize:14.0]];
     }else{
-        [titleLable setText:@"我的浏览记录"];
+        [titleLable setText:@"我的浏览"];
         [titleLable setFont:[UIFont systemFontOfSize:14.0]];
     }
     //右部button
     UIButton *rightTopButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [rightTopButton setFrame:CGRectMake(260, 10, 30, 30)];
+    [rightTopButton setFrame:CGRectMake(270, 10, 30, 30)];
     [rightTopButton setBackgroundImage:[UIImage imageNamed:@"RightTopButton.png"] forState:UIControlStateNormal];
     [headerView addSubview:rightTopButton];
     [headerView addSubview:titleLable];
@@ -80,6 +82,7 @@
             NSMutableDictionary *object = [parser objectWithData:[completedOperation responseData]];
             if([[object objectForKey:@"errorMessage"]isEqualToString:@"success"]) {
                 self.tableArray = [object objectForKey:@"data"];
+                NSLog(@"%@",self.tableArray);
                 if ([self.tableArray count] < 10) {
                     [self.refreshTableView reloadData:NO];
                 } else {
@@ -97,7 +100,6 @@
         if([db connectFav])
         {
            self.tableArray = [db fetchAll:@"select * from collection"];
-            NSLog(@"self.tableArray%@",self.tableArray);
         }
     }else{
         DBsqlite *db = [[DBsqlite alloc]init];
@@ -108,42 +110,72 @@
     }
 }
 
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if(!self.type == LISTVIEW_TYPE_SEARCH)
+    {
+        return 60.0;
+    }else{
+        return 80.0;
+    }
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return [self.tableArray count];
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSMutableDictionary *tempDictionary = [[NSMutableDictionary alloc]init];
-    float titleLabelWidth = 220;
-    static NSString *cellIdentifier = @"listViewCell";
-    NewsCell *cell = (NewsCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    if(cell==nil) {
-        cell = [[NewsCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+    if(self.type == LISTVIEW_TYPE_SEARCH)
+    {
+        NSMutableDictionary *tempDictionary = [[NSMutableDictionary alloc]init];
+        float titleLabelWidth = 220;
+        static NSString *cellIdentifier = @"listViewCell";
+        NewsCell *cell = (NewsCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+        if(cell==nil) {
+            cell = [[NewsCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+            
+        }
+        tempDictionary = [tableArray objectAtIndex:indexPath.row];
+        cell.newsTitleLabel.text = [tempDictionary objectForKey:@"title"];
+        [cell.contentView addSubview:cell.newsTitleLabel];
+        if (![[tempDictionary objectForKey:@"wap_thumb"] isEqualToString:@""]) {
+            [YMGlobal loadImage:[tempDictionary objectForKey:@"wap_thumb"] andImageView:cell.newsImageView];
+            titleLabelWidth = 220;
+        } else {
+            [cell.newsImageView setImage:[UIImage imageNamed:@"white"]];
+            titleLabelWidth = 300;
+        }
+        [cell.contentView addSubview:cell.newsImageView];
+        CGSize labelSize = [cell.newsTitleLabel.text sizeWithFont:[UIFont boldSystemFontOfSize:16.0f] constrainedToSize:CGSizeMake(titleLabelWidth, 40) lineBreakMode:UILineBreakModeCharacterWrap];
+        [cell.newsTitleLabel setFrame:CGRectMake(5, 5, labelSize.width, labelSize.height)];
+        if (cell.newsTitleLabel.frame.size.height == 20) {
+            [cell.newsDescLabel setFrame:CGRectMake(5, 28, titleLabelWidth, 20)];
+            cell.newsDescLabel.text = [tempDictionary objectForKey:@"description"];
+        } else {
+            cell.newsDescLabel.text = @"";
+        }
+        [cell.contentView addSubview:cell.newsDescLabel];
+        cell.newsOtherLabel.text = [NSString stringWithFormat:@"%@　%@　%@", [tempDictionary objectForKey:@"source"],[tempDictionary objectForKey:@"nickname"], [tempDictionary objectForKey:@"create_time"]];
+        [cell.contentView addSubview:cell.newsOtherLabel];
+        return cell;
+    }else{
+        static NSString *collectCellIdentifer = @"collectCell";
+        CollectCell *cell = (CollectCell *)[tableView dequeueReusableCellWithIdentifier:collectCellIdentifer];
+        if(cell == nil)
+        {
+            cell = [[CollectCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:collectCellIdentifer];
+            [cell.contentView addSubview:cell.newsTitleLabel];
+            [cell.contentView addSubview:cell.newsOtherLabel];
+        }
+        NSMutableDictionary *singleContentDictionary = [self.tableArray objectAtIndex:indexPath.row];
+         cell.newsTitleLabel.text = [singleContentDictionary objectForKey:@"title"];
+        CGSize labelSize = [cell.newsTitleLabel.text sizeWithFont:[UIFont boldSystemFontOfSize:16.0f] constrainedToSize:CGSizeMake(1000, 40) lineBreakMode:UILineBreakModeCharacterWrap];
+        [cell.newsTitleLabel setFrame:CGRectMake(5, 5, labelSize.width, labelSize.height)];
+        cell.newsOtherLabel.text = [NSString stringWithFormat:@"%@　%@",[singleContentDictionary objectForKey:@"author"], [singleContentDictionary objectForKey:@"create_time"]];
+        [cell.contentView addSubview:cell.newsOtherLabel];
+        return cell;
     }
-    tempDictionary = [tableArray objectAtIndex:indexPath.row];
-    cell.newsTitleLabel.text = [tempDictionary objectForKey:@"title"];
-    [cell.contentView addSubview:cell.newsTitleLabel];
-    if (![[tempDictionary objectForKey:@"wap_thumb"] isEqualToString:@""]) {
-        [YMGlobal loadImage:[tempDictionary objectForKey:@"wap_thumb"] andImageView:cell.newsImageView];
-        titleLabelWidth = 220;
-    } else {
-        [cell.newsImageView setImage:[UIImage imageNamed:@"white"]];
-        titleLabelWidth = 300;
-    }
-    [cell.contentView addSubview:cell.newsImageView];
-    CGSize labelSize = [cell.newsTitleLabel.text sizeWithFont:[UIFont boldSystemFontOfSize:16.0f] constrainedToSize:CGSizeMake(titleLabelWidth, 40) lineBreakMode:UILineBreakModeCharacterWrap];
-    [cell.newsTitleLabel setFrame:CGRectMake(5, 5, labelSize.width, labelSize.height)];
-    if (cell.newsTitleLabel.frame.size.height == 20) {
-        [cell.newsDescLabel setFrame:CGRectMake(5, 28, titleLabelWidth, 20)];
-        cell.newsDescLabel.text = [tempDictionary objectForKey:@"description"];
-    } else {
-        cell.newsDescLabel.text = @"";
-    }
-    [cell.contentView addSubview:cell.newsDescLabel];
-    cell.newsOtherLabel.text = [NSString stringWithFormat:@"%@　%@　%@", [tempDictionary objectForKey:@"source"],[tempDictionary objectForKey:@"nickname"], [tempDictionary objectForKey:@"create_time"]];
-    [cell.contentView addSubview:cell.newsOtherLabel];
-    return cell;
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
@@ -187,7 +219,20 @@
 {
     if(self.type == LISTVIEW_TYPE_SEARCH)
     {
-        
+        ZixunContentViewController *zixunVC = [[ZixunContentViewController alloc]init];
+        zixunVC.sourceViewNumber = COMEFROM_INDEX;
+        zixunVC.zixunId =  [[self.tableArray objectAtIndex:indexPath.row] objectForKey:@"id"];
+        [self.navigationController pushViewController:zixunVC animated:YES];
+    }else if (self.type == LISTVIEW_TYPE_FAVORITE){
+            ZixunContentViewController *zixunVC = [[ZixunContentViewController alloc]init];
+            zixunVC.sourceViewNumber = COMEFROM_COLLECT;
+            zixunVC.zixunId =  [[self.tableArray objectAtIndex:indexPath.row] objectForKey:@"id"];
+            [self.navigationController pushViewController:zixunVC animated:YES];
+    }else{
+            ZixunContentViewController *zixunVC = [[ZixunContentViewController alloc]init];
+            zixunVC.sourceViewNumber = COMEFROM_BROWSE;
+            zixunVC.zixunId =  [[self.tableArray objectAtIndex:indexPath.row] objectForKey:@"id"];
+            [self.navigationController pushViewController:zixunVC animated:YES];
     }
 }
 

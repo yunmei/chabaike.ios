@@ -117,10 +117,77 @@
         DBsqlite *db = [[DBsqlite alloc]init];
         if([db connectFav])
         {
-            
+            NSString *query = [NSString stringWithFormat:@"select * from collection where id='%@';",self.zixunId];
+            self.contentInDetail = [db fetchOne:query];
+            NSLog(@"self.contentInDetail%@",self.contentInDetail);
+            if([self.contentInDetail objectForKey:@"title"])
+            {
+                //计算内容所需要的高度
+                CGSize size = [[self.contentInDetail objectForKey:@"title"] sizeWithFont:[UIFont systemFontOfSize:22.0] constrainedToSize:CGSizeMake(280.0, 1000.0f) lineBreakMode:UILineBreakModeWordWrap];
+                CGFloat height = size.height;
+                self.contentTitleLable = [[UILabel alloc]initWithFrame:CGRectMake(10, 10, 280, height)];
+                [self.contentTitleLable setNumberOfLines:0];
+                self.contentTitleLable.text = [self.contentInDetail objectForKey:@"title"];
+                self.contentTitleLable.backgroundColor = [UIColor clearColor];
+                [self.contentTitleLable setFont:[UIFont systemFontOfSize:22.0]];
+                [self.contentTitleLable setTextColor:[UIColor whiteColor]];
+                [self.headerView addSubview:self.contentTitleLable];
+                //设置来源，作者，发表时间
+                self.detailLable = [[UILabel alloc]initWithFrame:CGRectMake(10, height+20, 280, 20)];
+                [self.detailLable setFont:[UIFont systemFontOfSize:14.0]];
+                [self.detailLable setText:[NSString stringWithFormat:@"%@    %@",[self.contentInDetail objectForKey:@"author"],[self.contentInDetail objectForKey:@"create_time"]]];
+                [self.detailLable setBackgroundColor:[UIColor clearColor]];
+                [self.detailLable setTextColor:[UIColor whiteColor]];
+                [self.headerView  addSubview:self.detailLable];
+                [self.headerView setFrame:CGRectMake(0,0,320, height+45)];
+                //设置分享内容
+                self.shareContent = [[self.contentInDetail objectForKey:@"title"] stringByAppendingString:[self.contentInDetail objectForKey:@"weiboUrl"]];
+                if([self.contentInDetail objectForKey:@"wap_content"])
+                {
+                    self.ziXunContent = [self.contentInDetail objectForKey:@"wap_content"];
+                    self.contentWebView = [[UIWebView alloc]initWithFrame:CGRectMake(0, height+45, 320, 295)];
+                    self.contentWebView.delegate = self;
+                    [self.contentWebView loadHTMLString:self.ziXunContent baseURL:[NSURL URLWithString:@"about:blank"]];
+                }
+            }
         }
     }else{
-    
+        DBsqlite *db = [[DBsqlite alloc]init];
+        if([db connectFav])
+        {
+            NSString *query = [NSString stringWithFormat:@" select * from browseRecord where id='%@';",self.zixunId];
+            self.contentInDetail = [db fetchOne:query];
+            if([self.contentInDetail objectForKey:@"title"])
+            {
+                //计算内容所需要的高度
+                CGSize size = [[self.contentInDetail objectForKey:@"title"] sizeWithFont:[UIFont systemFontOfSize:22.0] constrainedToSize:CGSizeMake(280.0, 1000.0f) lineBreakMode:UILineBreakModeWordWrap];
+                CGFloat height = size.height;
+                self.contentTitleLable = [[UILabel alloc]initWithFrame:CGRectMake(10, 10, 280, height)];
+                [self.contentTitleLable setNumberOfLines:0];
+                self.contentTitleLable.text = [self.contentInDetail objectForKey:@"title"];
+                self.contentTitleLable.backgroundColor = [UIColor clearColor];
+                [self.contentTitleLable setFont:[UIFont systemFontOfSize:22.0]];
+                [self.contentTitleLable setTextColor:[UIColor whiteColor]];
+                [self.headerView addSubview:self.contentTitleLable];
+                //设置来源，作者，发表时间
+                self.detailLable = [[UILabel alloc]initWithFrame:CGRectMake(10, height+20, 280, 20)];
+                [self.detailLable setFont:[UIFont systemFontOfSize:14.0]];
+                [self.detailLable setText:[NSString stringWithFormat:@"%@    %@",[self.contentInDetail objectForKey:@"author"],[self.contentInDetail objectForKey:@"create_time"]]];
+                [self.detailLable setBackgroundColor:[UIColor clearColor]];
+                [self.detailLable setTextColor:[UIColor whiteColor]];
+                [self.headerView  addSubview:self.detailLable];
+                [self.headerView setFrame:CGRectMake(0,0,320, height+45)];
+                //设置分享内容
+                self.shareContent = [[self.contentInDetail objectForKey:@"title"] stringByAppendingString:[self.contentInDetail objectForKey:@"weiboUrl"]];
+                if([self.contentInDetail objectForKey:@"wap_content"])
+                {
+                    self.ziXunContent = [self.contentInDetail objectForKey:@"wap_content"];
+                    self.contentWebView = [[UIWebView alloc]initWithFrame:CGRectMake(0, height+45, 320, 295)];
+                    self.contentWebView.delegate = self;
+                    [self.contentWebView loadHTMLString:self.ziXunContent baseURL:[NSURL URLWithString:@"about:blank"]];
+                }
+            }
+        }
     }
     CGSize mianSize = [UIScreen mainScreen].bounds.size;
     //生成底部返回和分享按钮
@@ -140,11 +207,6 @@
     [self.view addSubview:collectButton];
     [self.view addSubview:shareButton];
     [self.view addSubview:backButton];
-    UIButton *searchViewButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [searchViewButton setFrame:CGRectMake(20, 300, 20, 20)];
-    [searchViewButton setTitle:@"下一页" forState:UIControlStateNormal];
-    [searchViewButton addTarget:self action:@selector(searchViewGo:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:searchViewButton];
 }
 
 - (void)didReceiveMemoryWarning
