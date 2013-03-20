@@ -162,7 +162,7 @@
     self.searchKeyHotList=[[NSMutableArray alloc]init];
     if([dbsqlite connectSearch])
     {
-        self.searchKeyHotList = [dbsqlite fetchAll:@"select * from searchKeysHot;"];
+        self.searchKeyHotList = [dbsqlite fetchAll:@"select * from searchHistory;"];
         if([self.searchKeyHotList count]>0)
         {
             [self getHotKeyButtonTitleArray];
@@ -176,16 +176,17 @@
     DBsqlite *dbsqlite=[[DBsqlite alloc]init];
     if([dbsqlite connectSearch])
     {
-        NSString *querysql=[NSString stringWithFormat:@" searchHistory where skey='%@';",skey];
+        [dbsqlite exec:@"CREATE TABLE IF NOT EXISTS searchHistory (skey , createtime);"];
+        NSString *querysql=[NSString stringWithFormat:@"searchHistory where skey='%@';",skey];
         
         NSString *resultcount=[dbsqlite count:querysql];
         if([resultcount isEqualToString:@"0"])
         {
-            querysql=[NSString stringWithFormat:@"INSERT INTO searchHistory (skey,creattime) VALUES ('%@',datetime('now','localtime'));",skey];
+            querysql=[NSString stringWithFormat:@"INSERT INTO searchHistory (skey,createtime) VALUES ('%@',datetime('now','localtime'));",skey];
         }
         else
         {
-            querysql=[NSString stringWithFormat:@"UPDATE searchHistory SET creattime=datetime('now', 'localtime') WHERE  skey='%@';",skey];
+            querysql=[NSString stringWithFormat:@"UPDATE searchHistory SET createtime=datetime('now', 'localtime') WHERE  skey='%@';",skey];
         }
         if([dbsqlite exec:querysql])
         {
@@ -257,9 +258,9 @@
     int count = 0;
     for(int i =0;i<[self.searchKeyHotList count];i++)
     {
-        NSString *sigleString = [[self.searchKeyHotList objectAtIndex:i] objectForKey:@"hotTitle"];
+        NSString *sigleString = [[self.searchKeyHotList objectAtIndex:i] objectForKey:@"skey"];
         count += [sigleString length];
-        if(count >12)
+        if(count >16)
         {
             break;
         }else{
