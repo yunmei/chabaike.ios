@@ -31,6 +31,12 @@
     [super viewDidLoad];
     [self getSearchKeysHot];
     [self.view setBackgroundColor:[UIColor colorWithRed:230/255.0 green:230/255.0 blue:230/255.0 alpha:1.0]];
+    
+    // 增加右划手势返回
+    UISwipeGestureRecognizer *gestureRecognizer = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(backView:)];
+    [gestureRecognizer setDirection:UISwipeGestureRecognizerDirectionRight];
+    [self.view addGestureRecognizer:gestureRecognizer];
+    
     // Do any additional setup after loading the view from its nib.
     //生成顶部bar
     UIImageView *headerView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 320, 60)];
@@ -228,7 +234,7 @@
 
 - (void)banquan:(id)sender
 {
-    NSLog(@"banquan");
+    
 }
 
 //意见
