@@ -285,12 +285,23 @@
     {
         CGSize buttonSize = [buttonTile sizeWithFont:[UIFont systemFontOfSize:15.0] constrainedToSize:CGSizeMake(1000.0, 35) lineBreakMode:UILineBreakModeWordWrap];
         UIButton *hotSearchButton = [[UIButton alloc]initWithFrame:CGRectMake(buttonWidth, 132, buttonSize.width, buttonSize.height)];
+        [hotSearchButton addTarget:self action:@selector(goHotSearch:) forControlEvents:UIControlEventTouchUpInside];
         buttonWidth += buttonSize.width+5;
         [hotSearchButton setTitleColor:[UIColor colorWithRed:100/255.0 green:100/255.0 blue:100/255.0 alpha:1.0] forState:UIControlStateNormal];
         hotSearchButton.titleLabel.font = [UIFont systemFontOfSize:15.0];
         [self.view addSubview:hotSearchButton];
         [hotSearchButton setTitle:buttonTile forState:UIControlStateNormal];
     }
+}
+
+- (void)goHotSearch:(id)sender
+{
+    UIButton *hotKey = sender;
+    [self saveSearchKey:self.searchContentFeild.text];
+    ListViewController *listViewController = [[ListViewController alloc]init];
+    listViewController.type = LISTVIEW_TYPE_SEARCH;
+    listViewController.keyword = hotKey.titleLabel.text;
+    [self.navigationController pushViewController:listViewController animated:YES];
 }
 
 @end

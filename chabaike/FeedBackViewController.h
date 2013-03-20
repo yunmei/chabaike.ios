@@ -11,4 +11,5 @@
 @property (strong, nonatomic) IBOutlet UITextField *titleFeild;
 @property (strong, nonatomic) IBOutlet UITextView *contentTextView;
 @property (strong, nonatomic) IBOutlet UIButton *submitButton;
+@property (strong, nonatomic) UITapGestureRecognizer *tapGesture;
 @end

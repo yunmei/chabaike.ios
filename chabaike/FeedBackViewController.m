@@ -16,6 +16,7 @@
 @synthesize titleFeild;
 @synthesize contentTextView;
 @synthesize submitButton;
+@synthesize tapGesture = _tapGesture;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -74,18 +75,12 @@
 
 - (void) submit:(id)sender
 {
+    if([self.contentTextView.text isEqualToString:@""])
+    {
+        NSLog(@"不要提交空内容");
+        return;
+    }
     UIAlertView *alert=[[UIAlertView alloc]init];
-    if (self.titleFeild.text.length<2) {
-        alert=[[UIAlertView alloc]initWithTitle:@"友情提示" message:@"建议标题字数不小于2个" delegate:self cancelButtonTitle:@"ok" otherButtonTitles:nil,nil];
-        [alert show];
-        return;
-    }
-    if (self.contentTextView.text.length<10) {
-        alert=[[UIAlertView alloc]initWithTitle:@"友情提示" message:@"反馈内容字数不小于10个" delegate:self cancelButtonTitle:@"ok" otherButtonTitles:nil,nil];
-        [alert show];
-        return;
-    }
-
         NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
         [params setObject:@"2" forKey:@"type"];
         [params setObject:self.titleFeild.text forKey:@"title"];
@@ -108,7 +103,7 @@
     //NSLog(@"postUrl:%@", postUrl);
     NSError *error;
     NSURLResponse *theResponse;
-    NSString *requestUrl = [NSString stringWithFormat:@"%@?apikey=%@&format=json&method=system.feedback", @"http://www.maimaicha.cn/api",@"b4f4ee31a8b9acc866ef2afb754c33e6"];
+    NSString *requestUrl = [NSString stringWithFormat:@"%@?apikey=%@&format=json&method=system.feedback", @"http://sns.maimaicha.com/api",@"b4f4ee31a8b9acc866ef2afb754c33e6"];
     NSMutableURLRequest *theRequest=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:[requestUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
     [theRequest setHTTPMethod:@"POST"];
     [theRequest setHTTPBody:[postUrl dataUsingEncoding:NSUTF8StringEncoding]];
@@ -139,15 +134,39 @@
     return YES;
 }
 
-- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
+- (void)textFieldDidBeginEditing:(UITextField *)textField
 {
-    if([text isEqualToString:@"\n"])
-    {
-        [textView resignFirstResponder];
-        return NO;
-    }
-    return YES;
+    [self.view addGestureRecognizer:self.tapGesture];
 }
 
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    [self.view removeGestureRecognizer:self.tapGesture];
+}
+
+- (void)textViewDidBeginEditing:(UITextView *)textView
+{
+    [self.view addGestureRecognizer:self.tapGesture];
+}
+
+- (void)textViewDidEndEditing:(UITextView *)textView
+{
+    [self.view removeGestureRecognizer:self.tapGesture];
+}
+
+- (UITapGestureRecognizer *)tapGesture
+{
+    if(_tapGesture == nil)
+    {
+        _tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(hideKeyBoard:)];
+    }
+    return _tapGesture;
+}
+
+- (void)hideKeyBoard:(id)sender
+{
+    [self.contentTextView resignFirstResponder];
+    [self.titleFeild resignFirstResponder];
+}
 
 @end

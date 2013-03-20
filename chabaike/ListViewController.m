@@ -50,7 +50,7 @@
     [backButton setBackgroundImage:[UIImage imageNamed:@"Search_backBtn.png"] forState:UIControlStateNormal];
     [backButton addTarget:self action:@selector(backView:) forControlEvents:UIControlEventTouchUpInside];
     //lable
-    UILabel *titleLable = [[UILabel alloc]initWithFrame:CGRectMake(110, 15, 80, 30)];
+    UILabel *titleLable = [[UILabel alloc]initWithFrame:CGRectMake(110, 15, 120, 30)];
     [titleLable setBackgroundColor:[UIColor clearColor]];
     [titleLable setFont:[UIFont systemFontOfSize:26.0]];
     [titleLable setTextColor:[UIColor colorWithRed:151/255.0 green:151/255.0 blue:151/255.0 alpha:1.0]];
