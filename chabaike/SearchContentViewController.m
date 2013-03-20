@@ -240,7 +240,8 @@
 //意见
 - (void)goSurgest:(id)sender
 {
-    NSLog(@"surgest");
+    FeedBackViewController *feedBackVC = [[FeedBackViewController alloc]init];
+    [self.navigationController pushViewController:feedBackVC animated:YES];
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField

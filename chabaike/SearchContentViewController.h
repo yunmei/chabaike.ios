@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "DBsqlite.h"
+#import "FeedBackViewController.h"
 @interface SearchContentViewController : UIViewController<UITextFieldDelegate>
 
 @property (strong, nonatomic)NSMutableArray *searchKeyHotList;
