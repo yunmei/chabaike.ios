@@ -366,17 +366,13 @@
 		047854581548D7640098399C /* chabaike */ = {
 			isa = PBXGroup;
 			children = (
+				AAB9667C16F944D800D60E7A /* List */,
 				AAB7920116F04F8C00AA619F /* Search */,
 				4628945516EECE8500F94357 /* SlideShow */,
 				4628944F16EECE7100F94357 /* Content */,
 				4628944716EECE5600F94357 /* ViewController.h */,
 				4628944816EECE5600F94357 /* ViewController.m */,
 				4628944916EECE5600F94357 /* ViewController.xib */,
-				4686219416F80CCD006D0573 /* ListViewController.h */,
-				4686219516F80CCD006D0573 /* ListViewController.m */,
-				4686219616F80CCD006D0573 /* ListViewController.xib */,
-				4628944A16EECE5700F94357 /* NewsCell.h */,
-				4628944B16EECE5800F94357 /* NewsCell.m */,
 				047854611548D7640098399C /* chabaikeAppDelegate.h */,
 				047854621548D7640098399C /* chabaikeAppDelegate.m */,
 				047854591548D7640098399C /* Supporting Files */,
@@ -459,6 +455,7 @@
 		047854A51548E61B0098399C /* Class */ = {
 			isa = PBXGroup;
 			children = (
+				AAB9667D16F9457F00D60E7A /* CustomClass */,
 				AAECF71A16F19BB300B8AB2C /* DBhelp */,
 				4628947916EECF1000F94357 /* SBJson */,
 				4628945B16EECEE300F94357 /* MKNetworkKit  */,
@@ -684,6 +681,25 @@
 				AAB7920416F04FAE00AA619F /* SearchContentViewController.xib */,
 			);
 			name = Search;
+			sourceTree = "<group>";
+		};
+		AAB9667C16F944D800D60E7A /* List */ = {
+			isa = PBXGroup;
+			children = (
+				4686219416F80CCD006D0573 /* ListViewController.h */,
+				4686219516F80CCD006D0573 /* ListViewController.m */,
+				4686219616F80CCD006D0573 /* ListViewController.xib */,
+			);
+			name = List;
+			sourceTree = "<group>";
+		};
+		AAB9667D16F9457F00D60E7A /* CustomClass */ = {
+			isa = PBXGroup;
+			children = (
+				4628944A16EECE5700F94357 /* NewsCell.h */,
+				4628944B16EECE5800F94357 /* NewsCell.m */,
+			);
+			name = CustomClass;
 			sourceTree = "<group>";
 		};
 		AAECF71A16F19BB300B8AB2C /* DBhelp */ = {

@@ -70,10 +70,9 @@
     [headerView addSubview:titleLable];
     [headerView addSubview:backButton];
     [self.view addSubview:headerView];
-    
-    MBProgressHUD *HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     // 搜索操作
     if (self.type == LISTVIEW_TYPE_SEARCH) {
+          MBProgressHUD *HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"news.searcListByTitle",@"method", self.keyword, @"search", nil];
         MKNetworkOperation *op = [YMGlobal getOperation:params];
         [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
@@ -98,6 +97,7 @@
         if([db connectFav])
         {
            self.tableArray = [db fetchAll:@"select * from collection"];
+            NSLog(@"self.tableArray%@",self.tableArray);
         }
     }else{
         DBsqlite *db = [[DBsqlite alloc]init];
