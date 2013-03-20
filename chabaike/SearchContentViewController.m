@@ -8,6 +8,7 @@
 
 #import "SearchContentViewController.h"
 #import "ListViewController.h"
+#import "AboutViewController.h"
 
 @interface SearchContentViewController ()
 
@@ -55,7 +56,7 @@
     [titleLable setTextColor:[UIColor colorWithRed:151/255.0 green:151/255.0 blue:151/255.0 alpha:1.0]];
     //右部button
     UIButton *rightTopButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [rightTopButton setFrame:CGRectMake(260, 10, 30, 30)];
+    [rightTopButton setFrame:CGRectMake(270, 10, 30, 30)];
     [rightTopButton setBackgroundImage:[UIImage imageNamed:@"RightTopButton.png"] forState:UIControlStateNormal];
     [headerView addSubview:rightTopButton];
     [headerView addSubview:titleLable];
@@ -231,10 +232,10 @@
 }
 
 //版权
-
 - (void)banquan:(id)sender
 {
-    
+    AboutViewController *aboutViewController = [[AboutViewController alloc]init];
+    [self.navigationController pushViewController:aboutViewController animated:YES];
 }
 
 //意见
