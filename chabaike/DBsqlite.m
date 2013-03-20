@@ -14,27 +14,10 @@
 // 获取数据库文件路径
 - (NSString *)dataFilePath:(NSString *)dbname
 {
-    NSString *documentPath =@"";
-    //NSLog(@"dbname %@",dbname);
-    if([dbname isEqualToString:DBNAME])
-    {
-        documentPath= [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-    }
-    else {
-        documentPath= [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-    }
+    NSString *documentPath= [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+ 
     NSString *realPath = [documentPath stringByAppendingPathComponent:dbname];
     
-    NSString *sourcePath = [[NSBundle mainBundle] pathForResource:[dbname stringByReplacingOccurrencesOfString:@".sqlite" withString:@""] ofType:@"sqlite"];
-    //NSLog(@"sourcePath is %@",sourcePath);
-    //NSLog(@"realPath is %@",realPath);
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    if (![fileManager fileExistsAtPath:realPath]) {
-        NSError *error;
-        if (![fileManager copyItemAtPath:sourcePath toPath:realPath error:&error]) {
-            NSLog(@"%@",[error localizedDescription]);
-        }
-    }
     return realPath;
 }
 // 连接数据库
