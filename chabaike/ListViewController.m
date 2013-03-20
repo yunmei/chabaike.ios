@@ -55,6 +55,12 @@
     if (self.type == LISTVIEW_TYPE_SEARCH) {
         [titleLable setText:[NSString stringWithFormat:@"\"%@\"%@", self.keyword, @"的搜索"]];
         [titleLable setFont:[UIFont systemFontOfSize:14.0]];
+    }else if (self.type == LISTVIEW_TYPE_FAVORITE){
+        [titleLable setText:@"我的收藏"];
+        [titleLable setFont:[UIFont systemFontOfSize:14.0]];
+    }else{
+        [titleLable setText:@"我的浏览记录"];
+        [titleLable setFont:[UIFont systemFontOfSize:14.0]];
     }
     //右部button
     UIButton *rightTopButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -87,6 +93,18 @@
             [HUD hide:YES];
         }];
         [ApplicationDelegate.appEngine enqueueOperation:op];
+    }else if (self.type == LISTVIEW_TYPE_FAVORITE){
+        DBsqlite *db = [[DBsqlite alloc]init];
+        if([db connectFav])
+        {
+           self.tableArray = [db fetchAll:@"select * from collection"];
+        }
+    }else{
+        DBsqlite *db = [[DBsqlite alloc]init];
+        if([db connectFav])
+        {
+            self.tableArray = [db fetchAll:@"select * from browseRecord"];
+        }
     }
 }
 
@@ -162,6 +180,14 @@
             }];
             [ApplicationDelegate.appEngine enqueueOperation:op];
         }
+    }
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if(self.type == LISTVIEW_TYPE_SEARCH)
+    {
+        
     }
 }
 

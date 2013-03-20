@@ -24,6 +24,9 @@
 @synthesize shareContent;
 @synthesize ziXunContent;
 @synthesize contentInDetail = _contentInDetail;
+@synthesize sourceViewNumber;
+@synthesize contentId;
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -46,58 +49,79 @@
     self.headerView = [[UIView alloc]initWithFrame:CGRectMake(0,0,320, 120)];
     [self.headerView setBackgroundColor:[UIColor colorWithRed:61.0/255.0 green:157.0/255.0 blue:1.0/255.0 alpha:1.0]];
     [self.contentScrollView addSubview:self.headerView];
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"news.getNewsContent",@"method",self.zixunId,@"id", nil];
-    MKNetworkOperation *op = [YMGlobal getOperation:params];
-    [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
-        NSLog(@"zixuncontent%@",[completedOperation responseString]);
-        SBJsonParser *parser = [[SBJsonParser alloc]init];
-        NSMutableDictionary *object = [parser objectWithData:[completedOperation responseData]];
-        if([[object objectForKey:@"errorMessage"]isEqualToString:@"success"])
-        {
-            NSMutableDictionary *data = [object objectForKey:@"data"];
-            [self.contentInDetail setObject:[data objectForKey:@"id"] forKey:@"id"];
-            [self.contentInDetail setObject:[data objectForKey:@"title"] forKey:@"title"];
-            [self.contentInDetail setObject:[data objectForKey:@"wap_content"] forKey:@"wap_content"];
-            [self.contentInDetail setObject:[data objectForKey:@"create_time"] forKey:@"create_time"];
-            [self.contentInDetail setObject:[data objectForKey:@"weiboUrl"] forKey:@"weiboUrl"];
-            [self.contentInDetail setObject:[data objectForKey:@"author"] forKey:@"author"];
-            if([self.contentInDetail objectForKey:@"title"])
+    //根据字符标识，当从首页打开的时候
+    if(self.sourceViewNumber == COMEFROM_INDEX)
+    {
+        NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"news.getNewsContent",@"method",self.zixunId,@"id", nil];
+        MKNetworkOperation *op = [YMGlobal getOperation:params];
+        [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
+            SBJsonParser *parser = [[SBJsonParser alloc]init];
+            NSMutableDictionary *object = [parser objectWithData:[completedOperation responseData]];
+            if([[object objectForKey:@"errorMessage"]isEqualToString:@"success"])
             {
-                //计算内容所需要的高度
-                CGSize size = [[self.contentInDetail objectForKey:@"title"] sizeWithFont:[UIFont systemFontOfSize:22.0] constrainedToSize:CGSizeMake(280.0, 1000.0f) lineBreakMode:UILineBreakModeWordWrap];
-                CGFloat height = size.height;
-                self.contentTitleLable = [[UILabel alloc]initWithFrame:CGRectMake(10, 10, 280, height)];
-                [self.contentTitleLable setNumberOfLines:0];
-                self.contentTitleLable.text = [self.contentInDetail objectForKey:@"title"];
-                self.contentTitleLable.backgroundColor = [UIColor clearColor];
-                [self.contentTitleLable setFont:[UIFont systemFontOfSize:22.0]];
-                [self.contentTitleLable setTextColor:[UIColor whiteColor]];
-                [self.headerView addSubview:self.contentTitleLable];
-                //设置来源，作者，发表时间
-                self.detailLable = [[UILabel alloc]initWithFrame:CGRectMake(10, height+20, 280, 20)];
-                [self.detailLable setFont:[UIFont systemFontOfSize:14.0]];
-                [self.detailLable setText:[NSString stringWithFormat:@"%@    %@",[self.contentInDetail objectForKey:@"author"],[self.contentInDetail objectForKey:@"create_time"]]];
-                [self.detailLable setBackgroundColor:[UIColor clearColor]];
-                [self.detailLable setTextColor:[UIColor whiteColor]];
-                [self.headerView  addSubview:self.detailLable];
-                [self.headerView setFrame:CGRectMake(0,0,320, height+45)];
-                //设置分享内容
-                self.shareContent = [[self.contentInDetail objectForKey:@"title"] stringByAppendingString:[self.contentInDetail objectForKey:@"weiboUrl"]];
-                if([self.contentInDetail objectForKey:@"wap_content"])
+                NSMutableDictionary *data = [object objectForKey:@"data"];
+                [self.contentInDetail setObject:[data objectForKey:@"id"] forKey:@"id"];
+                [self.contentInDetail setObject:[data objectForKey:@"title"] forKey:@"title"];
+                [self.contentInDetail setObject:[data objectForKey:@"wap_content"] forKey:@"wap_content"];
+                [self.contentInDetail setObject:[data objectForKey:@"create_time"] forKey:@"create_time"];
+                [self.contentInDetail setObject:[data objectForKey:@"weiboUrl"] forKey:@"weiboUrl"];
+                [self.contentInDetail setObject:[data objectForKey:@"author"] forKey:@"author"];
+                DBsqlite *db = [[DBsqlite alloc]init];
+                if([db connectFav])
                 {
-                    self.ziXunContent = [self.contentInDetail objectForKey:@"wap_content"];
-                    self.contentWebView = [[UIWebView alloc]initWithFrame:CGRectMake(0, height+45, 320, 295)];
-                    self.contentWebView.delegate = self;
-                    [self.contentWebView loadHTMLString:self.ziXunContent baseURL:[NSURL URLWithString:@"about:blank"]];
+                    if([db exec:@"CREATE TABLE IF NOT EXISTS browseRecord ('id','title','wap_content','create_time','weiboUrl','author');"])
+                    {
+                        NSString *browseQuery = [NSString stringWithFormat:@"INSERT INTO browseRecord ('id','title','wap_content','create_time','weiboUrl','author') VALUES ('%@','%@','%@','%@','%@','%@')",[self.contentInDetail objectForKey:@"id"],[self.contentInDetail objectForKey:@"title"],[self.contentInDetail objectForKey:@"wap_content"],[self.contentInDetail objectForKey:@"create_time"],[self.contentInDetail objectForKey:@"weiboUrl"],[self.contentInDetail objectForKey:@"author"]];
+                        [db exec:browseQuery];
+                    }
                     
                 }
+                if([self.contentInDetail objectForKey:@"title"])
+                {
+                    //计算内容所需要的高度
+                    CGSize size = [[self.contentInDetail objectForKey:@"title"] sizeWithFont:[UIFont systemFontOfSize:22.0] constrainedToSize:CGSizeMake(280.0, 1000.0f) lineBreakMode:UILineBreakModeWordWrap];
+                    CGFloat height = size.height;
+                    self.contentTitleLable = [[UILabel alloc]initWithFrame:CGRectMake(10, 10, 280, height)];
+                    [self.contentTitleLable setNumberOfLines:0];
+                    self.contentTitleLable.text = [self.contentInDetail objectForKey:@"title"];
+                    self.contentTitleLable.backgroundColor = [UIColor clearColor];
+                    [self.contentTitleLable setFont:[UIFont systemFontOfSize:22.0]];
+                    [self.contentTitleLable setTextColor:[UIColor whiteColor]];
+                    [self.headerView addSubview:self.contentTitleLable];
+                    //设置来源，作者，发表时间
+                    self.detailLable = [[UILabel alloc]initWithFrame:CGRectMake(10, height+20, 280, 20)];
+                    [self.detailLable setFont:[UIFont systemFontOfSize:14.0]];
+                    [self.detailLable setText:[NSString stringWithFormat:@"%@    %@",[self.contentInDetail objectForKey:@"author"],[self.contentInDetail objectForKey:@"create_time"]]];
+                    [self.detailLable setBackgroundColor:[UIColor clearColor]];
+                    [self.detailLable setTextColor:[UIColor whiteColor]];
+                    [self.headerView  addSubview:self.detailLable];
+                    [self.headerView setFrame:CGRectMake(0,0,320, height+45)];
+                    //设置分享内容
+                    self.shareContent = [[self.contentInDetail objectForKey:@"title"] stringByAppendingString:[self.contentInDetail objectForKey:@"weiboUrl"]];
+                    if([self.contentInDetail objectForKey:@"wap_content"])
+                    {
+                        self.ziXunContent = [self.contentInDetail objectForKey:@"wap_content"];
+                        self.contentWebView = [[UIWebView alloc]initWithFrame:CGRectMake(0, height+45, 320, 295)];
+                        self.contentWebView.delegate = self;
+                        [self.contentWebView loadHTMLString:self.ziXunContent baseURL:[NSURL URLWithString:@"about:blank"]];
+                    }
+                }
+                
             }
-
+        } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
+            NSLog(@"%@",error);
+        }];
+        [ApplicationDelegate.appEngine enqueueOperation:op];
+        
+    }else if (self.sourceViewNumber == COMEFROM_COLLECT){
+        DBsqlite *db = [[DBsqlite alloc]init];
+        if([db connectFav])
+        {
+            
         }
-    } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
-        NSLog(@"%@",error);
-    }];
-    [ApplicationDelegate.appEngine enqueueOperation:op];
+    }else{
+    
+    }
     CGSize mianSize = [UIScreen mainScreen].bounds.size;
     //生成底部返回和分享按钮
     UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];

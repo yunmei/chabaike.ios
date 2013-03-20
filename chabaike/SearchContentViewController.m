@@ -210,14 +210,18 @@
 //点击收藏按钮
 - (void)goShoucang:(UIButton *)sender
 {
-
+    ListViewController *listViewController = [[ListViewController alloc]init];
+    listViewController.type = LISTVIEW_TYPE_FAVORITE;
+    [self.navigationController pushViewController:listViewController animated:YES];
 }
 
 //点击查看访问记录
 
 - (void)goJilu:(UIButton *)sender
 {
-    NSLog(@"jilu");
+    ListViewController *listViewController = [[ListViewController alloc]init];
+    listViewController.type = LISTVIEW_TYPE_BROWSE;
+    [self.navigationController pushViewController:listViewController animated:YES];
 }
 
 //版权

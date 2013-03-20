@@ -12,6 +12,11 @@
 #import "UMSocialSnsService.h"
 #import "SearchContentViewController.h"
 #import "DBsqlite.h"
+
+#define COMEFROM_INDEX    0       //内容根据传递的ID请求获得
+#define COMEFROM_COLLECT  1       //内容从收藏的数据库里调取
+#define COMEFROM_BROWSE   2       //内容从浏览记录的数据库里调取
+
 @interface ZixunContentViewController : UIViewController<
 UIWebViewDelegate
 >
@@ -26,4 +31,8 @@ UIWebViewDelegate
 @property (strong,nonatomic)NSString *shareContent;
 @property (strong,nonatomic)NSString *ziXunContent;
 @property (strong,nonatomic)NSMutableDictionary *contentInDetail;
+//加一个标识字符串，判断内容页是从首页还是收藏页
+@property int sourceViewNumber;
+
+@property (strong,nonatomic)NSString *contentId;
 @end
