@@ -30,6 +30,12 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    
+    // 增加右划手势返回
+    UISwipeGestureRecognizer *gestureRecognizer = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(backView:)];
+    [gestureRecognizer setDirection:UISwipeGestureRecognizerDirectionRight];
+    [self.view addGestureRecognizer:gestureRecognizer];
+    
     UIImageView *headerView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 320, 60)];
     [headerView setImage:[UIImage imageNamed:@"SearchHeader.png"]];
     [headerView setUserInteractionEnabled:YES];
