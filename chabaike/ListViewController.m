@@ -122,7 +122,16 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [self.tableArray count];
+    if([self.tableArray count] > 0)
+    {
+        NSLog(@"self.tableArr%@",self.tableArray );
+        NSLog(@"self.tableArr%i",[self.tableArray count] );
+        return [self.tableArray count];
+    }else{
+        NSLog(@"self.tableArr%@",self.tableArray );
+        return 1;
+    }
+        
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -160,21 +169,32 @@
         [cell.contentView addSubview:cell.newsOtherLabel];
         return cell;
     }else{
-        static NSString *collectCellIdentifer = @"collectCell";
-        CollectCell *cell = (CollectCell *)[tableView dequeueReusableCellWithIdentifier:collectCellIdentifer];
-        if(cell == nil)
+        if([self.tableArray count] == 0)
         {
-            cell = [[CollectCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:collectCellIdentifer];
-            [cell.contentView addSubview:cell.newsTitleLabel];
+            UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"messageCell"];
+            cell.textLabel.font = [UIFont systemFontOfSize:14.0];
+            if(self.type == LISTVIEW_TYPE_FAVORITE)
+            cell.textLabel.text = @"您还没有收藏没有任何内容";
+            else
+            cell.textLabel.text = @"您还没有浏览过任何内容";
+            return cell;
+        }else{
+            static NSString *collectCellIdentifer = @"collectCell";
+            CollectCell *cell = (CollectCell *)[tableView dequeueReusableCellWithIdentifier:collectCellIdentifer];
+            if(cell == nil)
+            {
+                cell = [[CollectCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:collectCellIdentifer];
+                [cell.contentView addSubview:cell.newsTitleLabel];
+                [cell.contentView addSubview:cell.newsOtherLabel];
+            }
+            NSMutableDictionary *singleContentDictionary = [self.tableArray objectAtIndex:indexPath.row];
+            cell.newsTitleLabel.text = [singleContentDictionary objectForKey:@"title"];
+            CGSize labelSize = [cell.newsTitleLabel.text sizeWithFont:[UIFont boldSystemFontOfSize:16.0f] constrainedToSize:CGSizeMake(1000, 40) lineBreakMode:UILineBreakModeCharacterWrap];
+            [cell.newsTitleLabel setFrame:CGRectMake(5, 5, labelSize.width, labelSize.height)];
+            cell.newsOtherLabel.text = [NSString stringWithFormat:@"%@　%@",[singleContentDictionary objectForKey:@"author"], [singleContentDictionary objectForKey:@"create_time"]];
             [cell.contentView addSubview:cell.newsOtherLabel];
+            return cell;
         }
-        NSMutableDictionary *singleContentDictionary = [self.tableArray objectAtIndex:indexPath.row];
-         cell.newsTitleLabel.text = [singleContentDictionary objectForKey:@"title"];
-        CGSize labelSize = [cell.newsTitleLabel.text sizeWithFont:[UIFont boldSystemFontOfSize:16.0f] constrainedToSize:CGSizeMake(1000, 40) lineBreakMode:UILineBreakModeCharacterWrap];
-        [cell.newsTitleLabel setFrame:CGRectMake(5, 5, labelSize.width, labelSize.height)];
-        cell.newsOtherLabel.text = [NSString stringWithFormat:@"%@　%@",[singleContentDictionary objectForKey:@"author"], [singleContentDictionary objectForKey:@"create_time"]];
-        [cell.contentView addSubview:cell.newsOtherLabel];
-        return cell;
     }
 }
 

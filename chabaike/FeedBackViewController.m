@@ -77,7 +77,8 @@
 {
     if([self.contentTextView.text isEqualToString:@""])
     {
-        NSLog(@"不要提交空内容");
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"不要提交空内容" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+        [alert show];
         return;
     }
     UIAlertView *alert=[[UIAlertView alloc]init];
