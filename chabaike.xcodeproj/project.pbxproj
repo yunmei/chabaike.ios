@@ -1040,6 +1040,7 @@
 		0478547C1548D7640098399C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: wang hong (R357TDS237)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "chabaike/chabaike-Prefix.pch";
 				GCC_THUMB_SUPPORT = NO;
@@ -1052,6 +1053,7 @@
 					"\"$(SRCROOT)/chabaike/UMSocial_Sdk_1.8.0\"",
 				);
 				PRODUCT_NAME = "茶百科";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "34B2DDF1-309E-4337-870A-27D389890EE9";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
@@ -1060,6 +1062,7 @@
 		0478547D1548D7640098399C /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: wang hong (R357TDS237)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "chabaike/chabaike-Prefix.pch";
 				GCC_THUMB_SUPPORT = NO;
@@ -1072,6 +1075,7 @@
 					"\"$(SRCROOT)/chabaike/UMSocial_Sdk_1.8.0\"",
 				);
 				PRODUCT_NAME = "茶百科";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "34B2DDF1-309E-4337-870A-27D389890EE9";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};

@@ -40,30 +40,30 @@
     
     // Do any additional setup after loading the view from its nib.
     //生成顶部bar
-    UIImageView *headerView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 320, 60)];
+    UIImageView *headerView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 320, 46)];
     [headerView setImage:[UIImage imageNamed:@"SearchHeader.png"]];
     [headerView setUserInteractionEnabled:YES];
     //返回小箭头
     UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [backButton setFrame:CGRectMake(15, 18, 15, 20)];
+    [backButton setFrame:CGRectMake(15, 13, 12, 16)];
     [backButton setBackgroundImage:[UIImage imageNamed:@"Search_backBtn.png"] forState:UIControlStateNormal];
     [backButton addTarget:self action:@selector(backView:) forControlEvents:UIControlEventTouchUpInside];
     //lable
-    UILabel *titleLable = [[UILabel alloc]initWithFrame:CGRectMake(110, 15, 80, 30)];
+    UILabel *titleLable = [[UILabel alloc]initWithFrame:CGRectMake(110, 13, 80, 20)];
     [titleLable setText:@"茶百科"];
     [titleLable setBackgroundColor:[UIColor clearColor]];
-    [titleLable setFont:[UIFont systemFontOfSize:26.0]];
-    [titleLable setTextColor:[UIColor colorWithRed:151/255.0 green:151/255.0 blue:151/255.0 alpha:1.0]];
+    [titleLable setFont:[UIFont fontWithName:@"Helvetica-Bold" size:20]];
+    [titleLable setTextColor:[UIColor colorWithRed:97/255.0 green:97/255.0 blue:97/255.0 alpha:1.0]];
     //右部button
     UIButton *rightTopButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [rightTopButton setFrame:CGRectMake(270, 10, 30, 30)];
+    [rightTopButton setFrame:CGRectMake(270, 10, 25, 25)];
     [rightTopButton setBackgroundImage:[UIImage imageNamed:@"RightTopButton.png"] forState:UIControlStateNormal];
     [headerView addSubview:rightTopButton];
     [headerView addSubview:titleLable];
     [headerView addSubview:backButton];
     [self.view addSubview:headerView];
     //搜索框
-    UIImageView *searchImageView = [[UIImageView alloc]initWithFrame:CGRectMake(10, 80, 220, 35)];
+    UIImageView *searchImageView = [[UIImageView alloc]initWithFrame:CGRectMake(10, 70, 220, 35)];
     [searchImageView setImage:[UIImage imageNamed:@"SearchBorder.png"]];
     [searchImageView setUserInteractionEnabled:YES];
     self.searchContentFeild = [[UITextField alloc]initWithFrame:CGRectMake(32, 1, 188, 33)];
@@ -73,12 +73,12 @@
     [searchImageView addSubview:self.searchContentFeild];
     UIButton *goSearchButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [goSearchButton setBackgroundImage:[UIImage imageNamed:@"GoSearch.png"] forState:UIControlStateNormal];
-    [goSearchButton setFrame:CGRectMake(245, 80, 70, 35)];
+    [goSearchButton setFrame:CGRectMake(245, 70, 70, 35)];
     [goSearchButton addTarget:self action:@selector(goSearch:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:goSearchButton];
     [self.view addSubview:searchImageView];
     //热门搜索
-    UILabel *rmlable = [[UILabel alloc]initWithFrame:CGRectMake(15, 125, 70, 35)];
+    UILabel *rmlable = [[UILabel alloc]initWithFrame:CGRectMake(15, 115, 70, 35)];
     [rmlable setText:@"热门搜索:"];
     [rmlable setTextColor:[UIColor colorWithRed:100/255.0 green:100/255.0 blue:100/255.0 alpha:1.0]];
     [rmlable setFont:[UIFont systemFontOfSize:15.0]];
@@ -86,7 +86,7 @@
     [self.view addSubview:rmlable];
     [self addHotSearchKeyButton];
     //收藏夹
-    UIImageView *scImageView = [[UIImageView alloc]initWithFrame:CGRectMake(10,180, 300, 15)];
+    UIImageView *scImageView = [[UIImageView alloc]initWithFrame:CGRectMake(10,160, 300, 15)];
     [scImageView setImage:[UIImage imageNamed:@"Shoucangjia.png"]];
     UILabel *scLable = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, 40, 15)];
     [scLable setText:@"收藏夹"];
@@ -97,25 +97,25 @@
     [self.view addSubview:scImageView];
         //收藏夹
     UIButton *scButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [scButton setFrame:CGRectMake(20, 210, 320, 30)];
+    [scButton setFrame:CGRectMake(20, 190, 320, 30)];
     [scButton setTitle:@"收藏夹" forState:UIControlStateNormal];
     [scButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];
     [scButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [scButton addTarget:self action:@selector(goShoucang:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:scButton];
-    UIImageView *lineView = [[UIImageView alloc]initWithFrame:CGRectMake(20, 250, 280, 1)];
+    UIImageView *lineView = [[UIImageView alloc]initWithFrame:CGRectMake(20, 220, 280, 1)];
     [lineView setImage:[UIImage imageNamed:@"Onepx.png"]];
     [self.view addSubview:lineView];
     UIButton *jlButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [jlButton setFrame:CGRectMake(20, 260, 320, 30)];
-    //jlButton setImage:[UIImage image] forState:<#(UIControlState)#>
+    [jlButton setFrame:CGRectMake(20, 230, 320, 30)];
+    //jlButton 
     [jlButton setTitle:@"访问记录" forState:UIControlStateNormal];
     [jlButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];
     [jlButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [jlButton addTarget:self action:@selector(goJilu:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:jlButton];
     //关于我们
-    UIImageView *gyImageView = [[UIImageView alloc]initWithFrame:CGRectMake(10, 315, 300, 15)];
+    UIImageView *gyImageView = [[UIImageView alloc]initWithFrame:CGRectMake(10, 275, 300, 15)];
     [gyImageView setImage:[UIImage imageNamed:@"Guanyu.png"]];
     UILabel *gyLable = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, 70, 15)];
     [gyLable setText:@"关于客户端"];
@@ -124,22 +124,32 @@
     [gyLable setFont:[UIFont systemFontOfSize:13.0]];
     [gyImageView addSubview:gyLable];
     UIButton *bqButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [bqButton setFrame:CGRectMake(20, 345, 320, 30)];
+    [bqButton setFrame:CGRectMake(20, 305, 320, 30)];
     [bqButton setTitle:@"版权信息" forState:UIControlStateNormal];
     [bqButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];
     [bqButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [bqButton addTarget:self action:@selector(banquan:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:bqButton];
-    UIImageView *llineView = [[UIImageView alloc]initWithFrame:CGRectMake(20, 385, 280, 1)];
+    UIImageView *llineView = [[UIImageView alloc]initWithFrame:CGRectMake(20, 345, 280, 1)];
     [llineView setImage:[UIImage imageNamed:@"Onepx.png"]];
     [self.view addSubview:llineView];
     UIButton *yjButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [yjButton setFrame:CGRectMake(20, 395, 320, 30)];
+    [yjButton setFrame:CGRectMake(20, 355, 320, 30)];
     [yjButton setTitle:@"意见反馈" forState:UIControlStateNormal];
     [yjButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];
     [yjButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [yjButton addTarget:self action:@selector(goSurgest:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:yjButton];
+    UIImageView *l2ineView = [[UIImageView alloc]initWithFrame:CGRectMake(20, 395, 280, 1)];
+    [l2ineView setImage:[UIImage imageNamed:@"Onepx.png"]];
+    [self.view addSubview:l2ineView];
+    UIButton *teaPlazaBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [teaPlazaBtn setFrame:CGRectMake(20, 405, 320, 30)];
+    [teaPlazaBtn setTitle:@"茶广场" forState:UIControlStateNormal];
+    [teaPlazaBtn setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];
+    [teaPlazaBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [teaPlazaBtn addTarget:self action:@selector(goTeaPlaza:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:teaPlazaBtn];
 
     [self.view addSubview:gyImageView];
 }
@@ -285,7 +295,7 @@
     for(NSString *buttonTile in self.hotButtonStringArrray)
     {
         CGSize buttonSize = [buttonTile sizeWithFont:[UIFont systemFontOfSize:15.0] constrainedToSize:CGSizeMake(1000.0, 35) lineBreakMode:UILineBreakModeWordWrap];
-        UIButton *hotSearchButton = [[UIButton alloc]initWithFrame:CGRectMake(buttonWidth, 132, buttonSize.width, buttonSize.height)];
+        UIButton *hotSearchButton = [[UIButton alloc]initWithFrame:CGRectMake(buttonWidth, 122, buttonSize.width, buttonSize.height)];
         [hotSearchButton addTarget:self action:@selector(goHotSearch:) forControlEvents:UIControlEventTouchUpInside];
         buttonWidth += buttonSize.width+5;
         [hotSearchButton setTitleColor:[UIColor colorWithRed:100/255.0 green:100/255.0 blue:100/255.0 alpha:1.0] forState:UIControlStateNormal];
@@ -303,6 +313,11 @@
     listViewController.type = LISTVIEW_TYPE_SEARCH;
     listViewController.keyword = hotKey.titleLabel.text;
     [self.navigationController pushViewController:listViewController animated:YES];
+}
+
+-(void)goTeaPlaza:(id)sender
+{
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"com.maimaicha.teaPlaza://"]];
 }
 
 @end
